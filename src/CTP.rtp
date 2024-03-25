@@ -1,0 +1,471 @@
+; rtp created by gen-rtp
+; converted from top of CTP
+
+[ bondedtypes ]
+; bonds  angles  dihedrals  impropers all_dihedrals nrexcl HH14 RemoveDih
+     1       1          9          4        1         3      1     0
+
+[ CTP ]
+ [ atoms ]
+      C1    CA   -0.058500    1
+      C2    CA   -0.043800    2
+      C3    CA    0.027600    3
+      N4    N*   -0.254600    4
+      C5    CA    0.088600    5
+      C6    CA   -0.034200    6
+      C7    CA   -0.021300    7
+      C8    CA    0.090200    8
+      N9    N*   -0.244400    9
+     C10    CA    0.090200   10
+     C11    CA   -0.021300   11
+     C12    CA    0.043700   12
+     C13    CA    0.088600   13
+     N14    N*   -0.254600   14
+     C15    CA    0.027600   15
+     C16    CA   -0.043800   16
+     C17    CA   -0.058500   17
+     C18    CA   -0.034200   18
+     C19     C    0.251000   19
+     O20     O   -0.269300   20
+    FE21 UF_Fe    3.000000   21
+     O22    OH   -0.205700   22
+     O23    OH   -0.205700   23
+     O24    OH   -0.205700   24
+      H1    HA    0.062400   25
+      H2    HA    0.063900   26
+      H3    H4    0.084000   27
+      H6    HA    0.064600   28
+      H7    HA    0.065500   29
+     H11    HA    0.065500   30
+     H15    H4    0.084000   31
+     H16    HA    0.063900   32
+     H17    HA    0.062400   33
+     H18    HA    0.064600   34
+     H22    HO    0.205700   35
+     H23    HO    0.205700   36
+     H24    HO    0.205700   37
+     C38    CT    0.017700   38
+     C39    CT   -0.035700   39
+     C40    CT   -0.051500   40
+     C41    CT   -0.051200   41
+     C42    CT   -0.032500   42
+     C43    CT    0.015500   43
+     N44     N   -0.352000   44
+    H381    H1    0.049100   45
+    H382    H1    0.049100   46
+    H392    HC    0.028500   47
+    H391    HC    0.028500   48
+    H401    HC    0.026700   49
+    H402    HC    0.026700   50
+    H411    HC    0.026700   51
+    H412    HC    0.026700   52
+    H421    HC    0.028900   53
+    H422    HC    0.028900   54
+    H432    H1    0.053500   55
+    H431    H1    0.053500   56
+     H44     H    0.163300   57
+     O5'    OS   -0.482200   58
+;       +P     P    1.282200   59	; next residue
+;     +O3'    OS   -0.484800   60	; next residue
+;     +C61    CT    0.003600   61	; next residue
+;    +H613    H1    0.049800   62	; next residue
+;    +H611    H1    0.049800   63	; next residue
+;     +OP1    O2   -0.809200   64	; next residue
+;     +OP2    O2   -0.809200   65	; next residue
+;    +H612    H1    0.049800   66	; next residue
+ [ bonds ]
+     C1     C2     0.140000   3.924592e5
+     C1     C6     0.140000   3.924592e5
+     C1     H1     0.108000   3.071056e5
+     C2     C3     0.140000   3.924592e5
+     C2     H2     0.108000   3.071056e5
+     C3     N4     0.133745   3.376692e5
+     C3     H3     0.108000   3.071056e5
+     N4     C5     0.136298   2.666217e5
+     N4   FE21     0.208220   1.608850e4
+     C5     C6     0.140000   3.924592e5
+     C5     C8     0.140000   3.924592e5
+     C6     H6     0.108000   3.071056e5
+     C7     C8     0.140000   3.924592e5
+     C7    C12     0.140000   3.924592e5
+     C7     H7     0.108000   3.071056e5
+     C8     N9     0.134772   3.059859e5
+     N9    C10     0.135047   3.001840e5
+     N9   FE21     0.195276   5.358171e4
+    C10    C11     0.140000   3.924592e5
+    C10    C13     0.140000   3.924592e5
+    C11    C12     0.140000   3.924592e5
+    C11    H11     0.108000   3.071056e5
+    C12    C19     0.140900   3.924592e5
+    C13    N14     0.136395   2.772305e5
+    C13    C18     0.140000   3.924592e5
+    N14    C15     0.133993   3.431473e5
+    N14   FE21     0.197551   6.126360e4
+    C15    C16     0.140000   3.924592e5
+    C15    H15     0.108000   3.071056e5
+    C16    C17     0.140000   3.924592e5
+    C16    H16     0.108000   3.071056e5
+    C17    C18     0.140000   3.924592e5
+    C17    H17     0.108000   3.071056e5
+    C18    H18     0.108000   3.071056e5
+    C19    O20     0.122900   4.769760e5
+    C19    N44     0.133500   4.100320e5
+   FE21    O22     0.181446   1.387251e5
+   FE21    O23     0.192585   9.512950e4
+   FE21    O24     0.182854   1.347667e5
+    O22    H22     0.096000   4.627504e5
+    O23    H23     0.096000   4.627504e5
+    O24    H24     0.096000   4.627504e5
+    C38    C39     0.152600   2.594080e5
+    C38    N44     0.144900   2.820016e5
+    C38   H381     0.109000   2.845120e5
+    C38   H382     0.109000   2.845120e5
+    C39    C40     0.152600   2.594080e5
+    C39   H392     0.109000   2.845120e5
+    C39   H391     0.109000   2.845120e5
+    C40    C41     0.152600   2.594080e5
+    C40   H401     0.109000   2.845120e5
+    C40   H402     0.109000   2.845120e5
+    C41    C42     0.152600   2.594080e5
+    C41   H411     0.109000   2.845120e5
+    C41   H412     0.109000   2.845120e5
+    C42    C43     0.152600   2.594080e5
+    C42   H421     0.109000   2.845120e5
+    C42   H422     0.109000   2.845120e5
+    C43   H432     0.109000   2.845120e5
+    C43   H431     0.109000   2.845120e5
+    C43    O5'     0.141000   2.677760e5
+    N44    H44     0.101000   3.631712e5
+ [ angles ]
+     C2     C1     C6    120.00   527.18
+     C2     C1     H1    120.00   418.40
+     C6     C1     H1    120.00   418.40
+     C1     C2     C3    120.00   527.18
+     C1     C2     H2    120.00   418.40
+     C3     C2     H2    120.00   418.40
+     C2     C3     N4    121.75   674.73
+     C2     C3     H3    120.00   418.40
+     N4     C3     H3    114.11   288.19
+     C3     N4     C5    119.69   692.66
+     C3     N4   FE21    122.33   430.19
+     C5     N4   FE21    114.49   419.96
+     N4     C5     C6    122.00   753.41
+     N4     C5     C8    111.48   654.74
+     C6     C5     C8    120.00   527.18
+     C1     C6     C5    120.00   527.18
+     C1     C6     H6    120.00   418.40
+     C5     C6     H6    120.00   418.40
+     C8     C7    C12    120.00   527.18
+     C8     C7     H7    120.00   418.40
+    C12     C7     H7    120.00   418.40
+     C5     C8     C7    120.00   527.18
+     C5     C8     N9    110.14   545.63
+     C7     C8     N9    120.76   703.32
+     C8     N9    C10    121.20   556.83
+     C8     N9   FE21    121.98   347.47
+    C10     N9   FE21    116.19   412.55
+     N9    C10    C11    119.70   688.30
+     N9    C10    C13    111.01   565.32
+    C11    C10    C13    120.00   527.18
+    C10    C11    C12    120.00   527.18
+    C10    C11    H11    120.00   418.40
+    C12    C11    H11    120.00   418.40
+     C7    C12    C11    120.00   527.18
+     C7    C12    C19    120.00   527.18
+    C11    C12    C19    120.00   527.18
+    C10    C13    N14    112.26   650.49
+    C10    C13    C18    120.00   527.18
+    N14    C13    C18    121.05   733.16
+    C13    N14    C15    120.12   709.99
+    C13    N14   FE21    112.63   653.62
+    C15    N14   FE21    122.66   707.70
+    N14    C15    C16    121.66   662.67
+    N14    C15    H15    114.09   303.93
+    C16    C15    H15    120.00   418.40
+    C15    C16    C17    120.00   527.18
+    C15    C16    H16    120.00   418.40
+    C17    C16    H16    120.00   418.40
+    C16    C17    C18    120.00   527.18
+    C16    C17    H17    120.00   418.40
+    C18    C17    H17    120.00   418.40
+    C13    C18    C17    120.00   527.18
+    C13    C18    H18    120.00   418.40
+    C17    C18    H18    120.00   418.40
+    C12    C19    O20    118.35   607.60
+    C12    C19    N44    117.28   765.11
+    O20    C19    N44    122.90   669.44
+     N4   FE21     N9     74.53   750.35
+     N4   FE21    N14    119.53   510.75
+     N4   FE21    O22    153.48   604.66
+     N4   FE21    O23     79.86   477.73
+     N4   FE21    O24     93.78   628.29
+     N9   FE21    N14     78.16   659.17
+     N9   FE21    O22     93.26   828.62
+     N9   FE21    O23    109.89   596.44
+     N9   FE21    O24    158.43   676.86
+    N14   FE21    O22     79.37   700.68
+    N14   FE21    O23    160.60   694.55
+    N14   FE21    O24     92.69   746.20
+    O22   FE21    O23     82.51   603.86
+    O22   FE21    O24    104.32   545.78
+    O23   FE21    O24     85.11   856.10
+   FE21    O22    H22     94.60   269.56
+   FE21    O23    H23    109.83   280.20
+   FE21    O24    H24     99.80   266.91
+    C39    C38    N44    109.70   669.44
+    C39    C38   H381    109.50   418.40
+    C39    C38   H382    109.50   418.40
+    N44    C38   H381    109.50   418.40
+    N44    C38   H382    109.50   418.40
+   H381    C38   H382    109.50   292.88
+    C38    C39    C40    109.50   334.72
+    C38    C39   H392    109.50   418.40
+    C38    C39   H391    109.50   418.40
+    C40    C39   H392    109.50   418.40
+    C40    C39   H391    109.50   418.40
+   H392    C39   H391    109.50   292.88
+    C39    C40    C41    109.50   334.72
+    C39    C40   H401    109.50   418.40
+    C39    C40   H402    109.50   418.40
+    C41    C40   H401    109.50   418.40
+    C41    C40   H402    109.50   418.40
+   H401    C40   H402    109.50   292.88
+    C40    C41    C42    109.50   334.72
+    C40    C41   H411    109.50   418.40
+    C40    C41   H412    109.50   418.40
+    C42    C41   H411    109.50   418.40
+    C42    C41   H412    109.50   418.40
+   H411    C41   H412    109.50   292.88
+    C41    C42    C43    109.50   334.72
+    C41    C42   H421    109.50   418.40
+    C41    C42   H422    109.50   418.40
+    C43    C42   H421    109.50   418.40
+    C43    C42   H422    109.50   418.40
+   H421    C42   H422    109.50   292.88
+    C42    C43   H432    109.50   418.40
+    C42    C43   H431    109.50   418.40
+    C42    C43    O5'    109.50   418.40
+   H432    C43   H431    109.50   292.88
+   H432    C43    O5'    109.50   418.40
+   H431    C43    O5'    109.50   418.40
+    C19    N44    C38    121.90   418.40
+    C19    N44    H44    120.00   418.40
+    C38    N44    H44    118.04   418.40
+ [ dihedrals ]
+     C1     C2     C3     N4    180.00    15.17       2
+     C1     C2     C3     H3    180.00    15.17       2
+     C1     C6     C5     N4    180.00    15.17       2
+     C1     C6     C5     C8    180.00    15.17       2
+     C2     C1     C6     C5    180.00    15.17       2
+     C2     C1     C6     H6    180.00    15.17       2
+     C2     C3     N4     C5        2     -1.63   492.47        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C2     C3     N4   FE21        2   -159.39   535.29        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C3     C2     C1     C6    180.00    15.17       2
+     C3     C2     C1     H1    180.00    15.17       2
+     C3     N4     C5     C6        2     -0.03   451.89        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C3     N4     C5     C8        2    175.44   569.09        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C3     N4   FE21     N9        2   -176.54   642.93        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C3     N4   FE21    N14        2   -110.21   677.39        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C3     N4   FE21    O22        2    118.46   361.55        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C3     N4   FE21    O23        2     69.37   854.10        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C3     N4   FE21    O24        2    -14.97   934.10        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     N4     C3     C2     H2    180.00    15.17       2
+     N4     C5     C6     H6    180.00    15.17       2
+     N4     C5     C8     C7    180.00    15.17       2
+     N4     C5     C8     N9    180.00    15.17       2
+     N4   FE21     N9     C8        2    -20.85   519.53        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     N4   FE21     N9    C10        2    150.08   544.80        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     N4   FE21    N14    C13        2    -92.65   774.55        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     N4   FE21    N14    C15        2    111.42   724.69        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     N4   FE21    O22    H22        2    -50.87   111.64        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     N4   FE21    O23    H23        2     52.47    20.13        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     N4   FE21    O24    H24        2     75.90   133.23        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C5     N4     C3     H3        2    178.55   291.54        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C5     N4   FE21     N9        2     24.64   682.69        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C5     N4   FE21    N14        2     90.97   721.66        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C5     N4   FE21    O22        2    -40.36   373.79        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C5     N4   FE21    O23        2    -89.45   925.71        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C5     N4   FE21    O24        2   -173.79  1020.44        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C5     C6     C1     H1    180.00    15.17       2
+     C5     C8     C7    C12    180.00    15.17       2
+     C5     C8     C7     H7    180.00    15.17       2
+     C5     C8     N9    C10        2   -157.20   781.01        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C5     C8     N9   FE21        2     13.28   925.12        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C6     C1     C2     H2    180.00    15.17       2
+     C6     C5     N4   FE21        2    159.40   571.28        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C6     C5     C8     C7    180.00    15.17       2
+     C6     C5     C8     N9    180.00    15.17       2
+     C7     C8     N9    C10        2     14.19   680.69        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C7     C8     N9   FE21        2   -175.33   787.62        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C7    C12    C11    C10    180.00    15.17       2
+     C7    C12    C11    H11    180.00    15.17       2
+     C7    C12    C19    O20    180.00    15.17       2
+     C7    C12    C19    N44    180.00    15.17       2
+     C8     C5     N4   FE21        2    -25.14   772.35        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C8     C5     C6     H6    180.00    15.17       2
+     C8     C7    C12    C11    180.00    15.17       2
+     C8     C7    C12    C19    180.00    15.17       2
+     C8     N9    C10    C11        2    -14.72   680.36        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C8     N9    C10    C13        2    154.87   781.29        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C8     N9   FE21    N14        2   -146.35   742.55        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C8     N9   FE21    O22        2    135.23   819.53        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C8     N9   FE21    O23        2     52.02   646.78        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     C8     N9   FE21    O24        2    -79.92   229.98        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     N9     C8     C7    C12    180.00    15.17       2
+     N9     C8     C7     H7    180.00    15.17       2
+     N9    C10    C11    C12    180.00    15.17       2
+     N9    C10    C11    H11    180.00    15.17       2
+     N9    C10    C13    N14    180.00    15.17       2
+     N9    C10    C13    C18    180.00    15.17       2
+     N9   FE21    N14    C13        2    -28.25   994.15        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     N9   FE21    N14    C15        2    175.82   913.49        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     N9   FE21    O22    H22        2   -111.90   196.94        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     N9   FE21    O23    H23        2    -16.86    20.19        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     N9   FE21    O24    H24        2    131.84   101.65        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C10     N9   FE21    N14        2     24.58   795.27        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C10     N9   FE21    O22        2    -53.84   884.23        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C10     N9   FE21    O23        2   -137.05   686.42        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C10     N9   FE21    O24        2     91.01   234.80        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C10    C11    C12    C19    180.00    15.17       2
+    C10    C13    N14    C15        2   -175.82   565.36        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C10    C13    N14   FE21        2     27.57   735.01        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C10    C13    C18    C17    180.00    15.17       2
+    C10    C13    C18    H18    180.00    15.17       2
+    C11    C10     N9   FE21        2    174.28   800.99        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C11    C10    C13    N14    180.00    15.17       2
+    C11    C10    C13    C18    180.00    15.17       2
+    C11    C12     C7     H7    180.00    15.17       2
+    C11    C12    C19    O20    180.00    15.17       2
+    C11    C12    C19    N44    180.00    15.17       2
+    C12    C11    C10    C13    180.00    15.17       2
+    C12    C19    N44    C38    180.00    10.46       2
+    C12    C19    N44    H44    180.00    10.46       2
+    C13    C10     N9   FE21        2    -16.14   944.65        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C13    C10    C11    H11    180.00    15.17       2
+    C13    N14    C15    C16        2      2.45   456.61        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C13    N14    C15    H15        2   -175.61   301.44        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C13    N14   FE21    O22        2     67.40   823.75        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C13    N14   FE21    O23        2     88.57   204.72        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C13    N14   FE21    O24        2    171.47   792.09        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C13    C18    C17    C16    180.00    15.17       2
+    C13    C18    C17    H17    180.00    15.17       2
+    N14    C13    C18    C17    180.00    15.17       2
+    N14    C13    C18    H18    180.00    15.17       2
+    N14    C15    C16    C17    180.00    15.17       2
+    N14    C15    C16    H16    180.00    15.17       2
+    N14   FE21    O22    H22        2    170.79   201.66        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    N14   FE21    O23    H23        2   -128.61    18.29        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    N14   FE21    O24    H24        2   -164.26   142.95        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C15    N14    C13    C18        2     -1.38   455.44        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C15    N14   FE21    O22        2    -88.53   767.59        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C15    N14   FE21    O23        2    -67.36   201.06        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C15    N14   FE21    O24        2     15.54   740.03        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C15    C16    C17    C18    180.00    15.17       2
+    C15    C16    C17    H17    180.00    15.17       2
+    C16    C15    N14   FE21        2    156.65   572.25        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C16    C17    C18    H18    180.00    15.17       2
+    C17    C16    C15    H15    180.00    15.17       2
+    C18    C13    N14   FE21        2   -157.99   559.47        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    C18    C17    C16    H16    180.00    15.17       2
+    C19    C12     C7     H7    180.00    15.17       2
+    C19    C12    C11    H11    180.00    15.17       2
+    C19    N44    C38    C39      0.00     0.00       4
+    C19    N44    C38    C39      0.00     1.67       3
+    C19    N44    C38    C39      0.00     8.37       2
+    C19    N44    C38    C39      0.00     8.37       1
+    C19    N44    C38   H381      0.00     0.00       2
+    C19    N44    C38   H382      0.00     0.00       2
+    O20    C19    N44    C38    180.00    10.46       2
+    O20    C19    N44    H44    180.00    10.46       2
+    O20    C19    N44    H44      0.00     8.37       1
+   FE21     N4     C3     H3        2     20.79   306.03        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+   FE21    N14    C15    H15        2    -21.42   347.84        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    O22   FE21    O23    H23        2   -107.63    20.06        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    O22   FE21    O24    H24        2    -84.55   142.15        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    O23   FE21    O22    H22        2     -2.26   202.90        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    O23   FE21    O24    H24        2     -3.57   140.88        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    O24   FE21    O22    H22        2     80.72   205.84        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+    O24   FE21    O23    H23        2    147.21    20.09        ; Delete the default funct "9" before 2 after pdb2gmx!!!
+     H1     C1     C2     H2    180.00    15.17       2
+     H1     C1     C6     H6    180.00    15.17       2
+     H2     C2     C3     H3    180.00    15.17       2
+    H15    C15    C16    H16    180.00    15.17       2
+    H16    C16    C17    H17    180.00    15.17       2
+    H17    C17    C18    H18    180.00    15.17       2
+    C38    C39    C40    C41      0.00     0.75       3
+    C38    C39    C40    C41    180.00     1.05       2
+    C38    C39    C40    C41    180.00     0.84       1
+    C38    C39    C40   H401      0.00     0.67       3
+    C38    C39    C40   H402      0.00     0.67       3
+    C39    C38    N44    H44      0.00     0.00       2
+    C39    C40    C41    C42      0.00     0.75       3
+    C39    C40    C41    C42    180.00     1.05       2
+    C39    C40    C41    C42    180.00     0.84       1
+    C39    C40    C41   H411      0.00     0.67       3
+    C39    C40    C41   H412      0.00     0.67       3
+    C40    C39    C38    N44      0.00     0.65       3
+    C40    C39    C38   H381      0.00     0.65       3
+    C40    C39    C38   H382      0.00     0.65       3
+    C40    C41    C42    C43      0.00     0.75       3
+    C40    C41    C42    C43    180.00     1.05       2
+    C40    C41    C42    C43    180.00     0.84       1
+    C40    C41    C42   H421      0.00     0.67       3
+    C40    C41    C42   H422      0.00     0.67       3
+    C41    C40    C39   H392      0.00     0.67       3
+    C41    C40    C39   H391      0.00     0.67       3
+    C41    C42    C43   H432      0.00     0.65       3
+    C41    C42    C43   H431      0.00     0.65       3
+    C41    C42    C43    O5'      0.00     0.65       3
+    C42    C41    C40   H401      0.00     0.67       3
+    C42    C41    C40   H402      0.00     0.67       3
+    C43    C42    C41   H411      0.00     0.67       3
+    C43    C42    C41   H412      0.00     0.67       3
+    N44    C38    C39   H392      0.00     0.65       3
+    N44    C38    C39   H391      0.00     0.65       3
+   H381    C38    C39   H392      0.00     0.65       3
+   H381    C38    C39   H391      0.00     0.65       3
+   H381    C38    N44    H44      0.00     0.00       2
+   H382    C38    C39   H392      0.00     0.65       3
+   H382    C38    C39   H391      0.00     0.65       3
+   H382    C38    N44    H44      0.00     0.00       2
+   H392    C39    C40   H401      0.00     0.63       3
+   H392    C39    C40   H402      0.00     0.63       3
+   H391    C39    C40   H401      0.00     0.63       3
+   H391    C39    C40   H402      0.00     0.63       3
+   H401    C40    C41   H411      0.00     0.63       3
+   H401    C40    C41   H412      0.00     0.63       3
+   H402    C40    C41   H411      0.00     0.63       3
+   H402    C40    C41   H412      0.00     0.63       3
+   H411    C41    C42   H421      0.00     0.63       3
+   H411    C41    C42   H422      0.00     0.63       3
+   H412    C41    C42   H421      0.00     0.63       3
+   H412    C41    C42   H422      0.00     0.63       3
+   H421    C42    C43   H432      0.00     0.65       3
+   H421    C42    C43   H431      0.00     0.65       3
+   H421    C42    C43    O5'      0.00     0.00       3
+   H421    C42    C43    O5'      0.00     1.05       1
+   H422    C42    C43   H432      0.00     0.65       3
+   H422    C42    C43   H431      0.00     0.65       3
+   H422    C42    C43    O5'      0.00     0.00       3
+   H422    C42    C43    O5'      0.00     1.05       1
+ [ impropers ]
+     C2     C6     C1     H1    180.00     4.60       2
+     C1     C3     C2     H2    180.00     4.60       2
+     C2     N4     C3     H3    180.00     4.60       2
+     C3     C5     N4   FE21    180.00     4.60       2
+     N4     C6     C5     C8    180.00     4.60       2
+     C1     C5     C6     H6    180.00     4.60       2
+     C8    C12     C7     H7    180.00     4.60       2
+     C5     C7     C8     N9    180.00     4.60       2
+     C8    C10     N9   FE21    180.00     4.60       2
+     N9    C11    C10    C13    180.00     4.60       2
+    C10    C12    C11    H11    180.00     4.60       2
+     C7    C11    C12    C19    180.00     4.60       2
+    C10    N14    C13    C18    180.00     4.60       2
+    C13    C15    N14   FE21    180.00     4.60       2
+    N14    C16    C15    H15    180.00     4.60       2
+    C15    C17    C16    H16    180.00     4.60       2
+    C16    C18    C17    H17    180.00     4.60       2
+    C13    C17    C18    H18    180.00     4.60       2
+    C12    O20    C19    N44    180.00    43.93       2
+    C19    C38    N44    H44    180.00     4.60       2

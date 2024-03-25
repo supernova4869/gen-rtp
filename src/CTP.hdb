@@ -1,0 +1,16 @@
+R8   15
+1      1      H      N      C1     CA     
+3      4      HB2    CB2    CA     N      
+1      1      H2     N2     C      CA2    
+2      6      HB1    CB1    CA     CG     
+2      6      HG     CG     CB1    CD     
+2      6      HD     CD     CG     CE     
+2      6      HE     CE     CD     CH     
+2      6      HH     CH     CE     CZ     
+2      6      HZ     CZ     CH     CT     
+1      1      HT     CT     CZ     CI     
+1      1      HI     CI     CT     CK     
+2      6      HK     CK     CI     CL     
+3      4      HL     CL     CK     CI     
+3      4      HA1    CA1    C1     N      
+3      4      HA2    CA2    N2     C      
