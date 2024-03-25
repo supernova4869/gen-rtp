@@ -7,6 +7,7 @@ use std::path::Path;
 use mol2::MOL2;
 use hdb::get_adj_h_id;
 use itp::Topol;
+use std::io;
 
 fn main() {
     // 读取mol2
@@ -32,7 +33,9 @@ fn main() {
     }
     
     // 输出mol2
-    let parent_path = Path::new(Path::new(mol2_file.as_str())).parent().unwrap().join("new.mol2");
+    let mol2_file = Path::new(mol2_file.as_str());
+    let mol2_name = mol2_file.file_name().unwrap().to_str().unwrap();
+    let parent_path = mol2_file.parent().unwrap().join("new".to_string() + mol2_name);
     let parent_path = parent_path.to_str().unwrap();
     mol2.output(parent_path);
 
@@ -53,4 +56,7 @@ fn main() {
     let new_path = parent_path.join(hdb_name);
     let new_path = new_path.to_str().unwrap();
     mol2.top2hdb(new_path, vec![], vec![59, 60, 61, 62, 63, 64, 65, 66]);
+
+    println!("Press any key to exit");
+    io::stdin().read_line(&mut String::new()).expect("Failed to read line");
 }
