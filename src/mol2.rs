@@ -1,6 +1,6 @@
 use std::{fs, io::Write};
 use crate::hdb::HDBItem;
-use crate::htype::{get_adj_h_id, get_adj_heavy_id, get_htype_from_heavy_atom};
+use crate::hdb::{get_adj_h_id, get_adj_heavy_id, get_htype_from_heavy_atom};
 
 #[derive(Debug)]
 #[allow(dead_code)]
@@ -198,7 +198,7 @@ impl MOL2 {
         println!("Written to {}", outfile);
     }
 
-    pub fn top2hdb(&self, outfile: &str, exclude_n: Vec<i32>, exclude_c: Vec<i32>) {
+    pub fn top2hdb(&self, out: &str, exclude_n: Vec<i32>, exclude_c: Vec<i32>) {
         // atoms layout: H--i--j--k
         let mut items: Vec<HDBItem> = vec![];
         // 1. 找到所有的非排除重原子
@@ -277,7 +277,7 @@ impl MOL2 {
             }
         }
         // 5. 输出文件
-        let mut outfile = fs::File::create(outfile).unwrap();
+        let mut outfile = fs::File::create(out).unwrap();
         outfile.write_all(format!("{:5}{}\n", self.mol.sys_name, items.len()).as_bytes()).unwrap();
         for item in &items {
             outfile.write_all(format!("{:<7}{:<7}{:7}", item.h_num, item.h_type, item.h_atom).as_bytes()).unwrap();
@@ -286,6 +286,8 @@ impl MOL2 {
             }
             outfile.write_all(b"\n").unwrap();
         }
+
+        println!("Finished writing rtp file to {}", out);
     }
 
     pub fn get_hbasename(&self, h: &Atom) -> String {

@@ -1,30 +1,20 @@
 mod mol2;
-mod htype;
 mod itp;
 mod hdb;
+mod utils;
 
-use std::io;
 use std::path::Path;
 use mol2::MOL2;
-use htype::get_adj_h_id;
+use hdb::get_adj_h_id;
 use itp::Topol;
-use regex::Regex;
 
 fn main() {
     // 读取mol2
     println!("Input the mol2 file name:");
-    let mut inp: String = String::new();
-    io::stdin().read_line(&mut inp).expect("Failed to read line");
-    let inp = inp.trim();
-    let inp: String = match inp.starts_with("\"") {
-        true => inp[1..inp.len() - 1].to_string(),
-        false => inp.to_string()
-    };
-    let re = Regex::new(r"\\").unwrap();
-    let inp = re.replace_all(&inp, "/").to_string();
-    println!("Reading mol2 file: {}", inp);
+    let mol2_file = utils::read_file();
+    println!("Reading mol2 file: {}", mol2_file);
     
-    let mol2 = &mut MOL2::from(inp.as_str());
+    let mol2 = &mut MOL2::from(mol2_file.as_str());
     // 修改H命名
     let mol2_bak = &mol2.clone();
     for a in &mol2_bak.atoms {
@@ -42,14 +32,25 @@ fn main() {
     }
     
     // 输出mol2
-    let parent_path = Path::new(Path::new(inp.as_str())).parent().unwrap().join("new.mol2");
+    let parent_path = Path::new(Path::new(mol2_file.as_str())).parent().unwrap().join("new.mol2");
     let parent_path = parent_path.to_str().unwrap();
     mol2.output(parent_path);
 
     // 读取itp, 选择性删除连接原子成键信息
-    let mut itp = Topol::from("src/CTP.itp");
+    println!("Input the itp file name:");
+    let itp_file = utils::read_file();
+    let mut itp = Topol::from(itp_file.as_str());
     // 输出rtp, 特殊处理2号规则
-    itp.to_rtp("src/CTP.rtp", "amber", vec![], vec![59, 60, 61, 62, 63, 64, 65, 66], 0, 0);
+    let itp_file = Path::new(Path::new(itp_file.as_str()));
+    let parent_path = itp_file.parent().unwrap();
+    let stem = itp_file.file_stem().unwrap();
+    let rtp_name = stem.to_str().unwrap().to_string() + ".rtp";
+    let new_path = parent_path.join(rtp_name);
+    let new_path = new_path.to_str().unwrap();
+    itp.to_rtp(new_path, "amber", vec![], vec![59, 60, 61, 62, 63, 64, 65, 66], 0, 0);
     // 输出hdb, 根据H类型
-    mol2.top2hdb("src/CTP.hdb", vec![], vec![59, 60, 61, 62, 63, 64, 65, 66]);
+    let hdb_name = stem.to_str().unwrap().to_string() + ".hdb";
+    let new_path = parent_path.join(hdb_name);
+    let new_path = new_path.to_str().unwrap();
+    mol2.top2hdb(new_path, vec![], vec![59, 60, 61, 62, 63, 64, 65, 66]);
 }
