@@ -133,7 +133,7 @@ impl Topol {
 
         // topol items
         let mut attypes: HashSet<TopolAtomtype> = HashSet::new();
-        let mut mol = mol2.mol.sys_name.to_string();
+        let mol = mol2.mol.sys_name.to_string();
         let mut nrexcl = 3;
         let mut atoms: Vec<TopolAtom> = vec![];
         let mut bonds: Vec<TopolBond> = vec![];
@@ -276,13 +276,7 @@ impl Topol {
             _ => ()
         }
         for bond in &self.bonds {
-            if !exclude_n.is_empty() && exclude_n.contains(&bond.ai.nr) && exclude_n.contains(&bond.aj.nr) {
-                file.write_all(format!(";- {}\n", bond.to_rtp()).as_bytes()).unwrap();
-            } else if exclude_c.is_empty() && (exclude_c.contains(&bond.ai.nr) && exclude_c.contains(&bond.aj.nr)) {
-                file.write_all(format!(";+ {}\n", bond.to_rtp()).as_bytes()).unwrap();
-            } else {
-                file.write_all((bond.to_rtp() + "\n").as_bytes()).unwrap();
-            }
+            file.write_all((bond.to_rtp() + "\n").as_bytes()).unwrap();
         }
     
         // [ angles ]字段：键角信息
@@ -294,22 +288,61 @@ impl Topol {
         }
     
         // [ dihedrals ]字段：二面角信息
+        // 理论上2用来描述improper, 但sobtop生成拓扑时采用2描述proper, 这里为特殊应对
         file.write_all(b" [ dihedrals ]\n").unwrap();
-        self.dihedrals.retain(|d| !exclude_n.contains(&d.ai.nr) && !exclude_n.contains(&d.aj.nr) && !exclude_n.contains(&d.ak.nr) && !exclude_n.contains(&d.al.nr));
-        self.dihedrals.retain(|d| !exclude_c.contains(&d.ai.nr) && !exclude_c.contains(&d.aj.nr) && !exclude_c.contains(&d.ak.nr) && !exclude_c.contains(&d.al.nr));
-        for dihedral in &self.dihedrals {
-            // 理论上2用来描述improper, 但sobtop生成拓扑时采用2描述proper, 这里为特殊应对
-            if dihedral.funct == 9 || dihedral.funct == 1 || dihedral.funct == 2 {
-                file.write_all((dihedral.to_rtp(ff) + "\n").as_bytes()).unwrap();
-            }
+        // 仅保留4类型中有且仅有一个排除原子(邻接原子)的情况
+        if let Some(n_name) = n_name {
+            self.dihedrals.retain(|d| 
+                (!exclude_n.contains(&d.ai.nr) && !exclude_n.contains(&d.aj.nr) && !exclude_n.contains(&d.ak.nr) && !exclude_n.contains(&d.al.nr))
+                || (d.funct == 4 && {
+                    let v_ids = vec![d.ai.nr, d.aj.nr, d.ak.nr, d.al.nr];
+                    let n_atoms: Vec<&usize> = v_ids.iter().filter(|&x| exclude_n.contains(x)).collect();
+                    n_atoms.len() == 1 && self.atoms[n_atoms[0] - 1].atom.eq(n_name)
+                }));
+        }
+        // 仅保留4类型中有且仅有一个排除原子(邻接原子)的情况
+        if let Some(c_name) = c_name {
+            self.dihedrals.retain(|d| 
+                (!exclude_c.contains(&d.ai.nr) && !exclude_c.contains(&d.aj.nr) && !exclude_c.contains(&d.ak.nr) && !exclude_c.contains(&d.al.nr))
+                || (d.funct == 4 && {
+                    let v_ids = vec![d.ai.nr, d.aj.nr, d.ak.nr, d.al.nr];
+                    let c_atoms: Vec<&usize> = v_ids.iter().filter(|&x| exclude_c.contains(x)).collect();
+                    c_atoms.len() == 1 && self.atoms[c_atoms[0] - 1].atom.eq(c_name)
+                }));
+        }
+        // [ dihedrals ]字段: proper信息
+        for dihedral in self.dihedrals.iter().filter(|&d| vec![9, 1, 2].contains(&d.funct)) {
+            file.write_all((dihedral.to_rtp(ff) + "\n").as_bytes()).unwrap();
         }
     
         // [ impropers ]字段：反常二面角信息
-        file.write_all(b" [ impropers ]\n").unwrap();
-        for dihedral in &self.dihedrals {
-            if dihedral.funct == 4 {
-                file.write_all((dihedral.to_rtp(ff) + "\n").as_bytes()).unwrap();
+        for dihedral in &mut self.dihedrals {
+            if let Some(atom_n) = atom_n {
+                if dihedral.ai.nr == atom_n {
+                    dihedral.ai.atom = n_name.as_ref().unwrap().to_string();
+                } else if dihedral.aj.nr == atom_n {
+                    dihedral.aj.atom = n_name.as_ref().unwrap().to_string();
+                } else if dihedral.ak.nr == atom_n {
+                    dihedral.ak.atom = n_name.as_ref().unwrap().to_string();
+                } else if dihedral.al.nr == atom_n {
+                    dihedral.al.atom = n_name.as_ref().unwrap().to_string();
+                }
             }
+            if let Some(atom_c) = atom_c {
+                if dihedral.ai.nr == atom_c {
+                    dihedral.ai.atom = c_name.as_ref().unwrap().to_string();
+                } else if dihedral.aj.nr == atom_c {
+                    dihedral.aj.atom = c_name.as_ref().unwrap().to_string();
+                } else if dihedral.ak.nr == atom_c {
+                    dihedral.ak.atom = c_name.as_ref().unwrap().to_string();
+                } else if dihedral.al.nr == atom_c {
+                    dihedral.al.atom = c_name.as_ref().unwrap().to_string();
+                }
+            }
+        }
+        file.write_all(b" [ impropers ]\n").unwrap();
+        for dihedral in self.dihedrals.iter().filter(|&d| d.funct == 4) {
+            file.write_all((dihedral.to_rtp(ff) + "\n").as_bytes()).unwrap();
         }
     
         println!("Finished writing rtp file to {}", outfile);
