@@ -156,7 +156,7 @@ impl Topol {
                     attypes.insert(TopolAtomtype::from(line));
                 } else if cur_item == "moleculetype" {
                     let paras: Vec<&str> = line.split_whitespace().collect();
-                    mol = paras[0].to_string();
+                    // mol = paras[0].to_string();
                     nrexcl = paras[1].parse().unwrap();
                 } else if cur_item == "atoms" {
                     // Fuck, I must change the atom name here
