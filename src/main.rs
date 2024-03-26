@@ -10,8 +10,7 @@ use std::io;
 
 fn main() {
     // 读取mol2
-    println!("Input the mol2 file name (enter to skip):");
-    // 加上跳过mol2的规则
+    println!("Input the mol2 file name:");
     let mol2_file = utils::read_file();
     println!("Reading mol2 file: {}", mol2_file);
     
