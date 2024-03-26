@@ -4,6 +4,8 @@ use std::{collections::HashSet, fs, io::Write};
 use std::str::FromStr;
 use std::fmt::{self, Debug, Display};
 
+use crate::mol2::MOL2;
+
 pub struct TopolAtomtype {
     name: String,
     mass: f64,
@@ -118,7 +120,7 @@ fn get_atom_from_nr(atoms: &Vec<TopolAtom>, nr: usize) -> &TopolAtom {
 // }
 
 impl Topol {
-    pub fn from(file: &str) -> Topol {
+    pub fn from(file: &str, mol2: &MOL2) -> Topol {
         println!("Reading topology of {}...", file);
         let lines = fs::read_to_string(file).unwrap();
         let lines: Vec<&str> = lines.split("\n").collect();
@@ -126,7 +128,6 @@ impl Topol {
         let lines: Vec<String> = lines.iter()
             .map(|&s| re.replace(s, "").to_string())
             .map(|s| s.trim().to_string())
-            // .filter(|s| !s.starts_with(";"))
             .filter(|s| !s.is_empty())
             .collect();
 
@@ -158,7 +159,10 @@ impl Topol {
                     mol = paras[0].to_string();
                     nrexcl = paras[1].parse().unwrap();
                 } else if cur_item == "atoms" {
-                    atoms.push(TopolAtom::from(line));
+                    // Fuck, I must change the atom name here
+                    let mut a = TopolAtom::from(line);
+                    a.atom = mol2.atoms[a.nr - 1].atom_name.to_string();
+                    atoms.push(a);
                 } else if cur_item == "bonds" {
                     bonds.push(TopolBond::from(&atoms, line));
                 } else if cur_item == "pairs" {
@@ -174,7 +178,6 @@ impl Topol {
                 }
             }
         }
-        // resort!(atoms)
         println!("Finished reading topology of {}\n", mol);
         Topol {
             atomtypes: attypes, 
@@ -249,20 +252,24 @@ impl Topol {
             "amber" => {
                 self.bonds.retain(|b| !exclude_c.contains(&b.ai.nr) && !exclude_c.contains(&b.aj.nr));
                 for bond in &mut self.bonds {
-                    if exclude_n.contains(&bond.ai.nr) {
-                        bond.ai.atom = "-".to_string() + bond.ai.atom.as_str();
-                    } else if exclude_n.contains(&bond.aj.nr) {
-                        bond.aj.atom = "-".to_string() + bond.aj.atom.as_str();
+                    if let Some(atom_n) = atom_n {
+                        if bond.ai.nr == atom_n {
+                            bond.ai.atom = n_name.as_ref().unwrap().to_string();
+                        } else if bond.aj.nr == atom_n {
+                            bond.aj.atom = n_name.as_ref().unwrap().to_string();
+                        }
                     }
                 }
             },
             "gromos" => {
                 self.bonds.retain(|b| !exclude_n.contains(&b.ai.nr) && !exclude_n.contains(&b.aj.nr));
                 for bond in &mut self.bonds {
-                    if exclude_c.contains(&bond.ai.nr) {
-                        bond.ai.atom = "+".to_string() + bond.ai.atom.as_str();
-                    } else if exclude_c.contains(&bond.aj.nr) {
-                        bond.aj.atom = "+".to_string() + bond.aj.atom.as_str();
+                    if let Some(atom_c) = atom_c {
+                        if bond.ai.nr == atom_c {
+                            bond.ai.atom = c_name.as_ref().unwrap().to_string();
+                        } else if bond.aj.nr == atom_c {
+                            bond.aj.atom = c_name.as_ref().unwrap().to_string();
+                        }
                     }
                 }
             },

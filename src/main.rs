@@ -44,7 +44,7 @@ fn main() {
     let out = parent_path.join("new".to_string() + &mol2_stem + ".mol2");
     mol2.output(out.as_os_str().to_str().unwrap());
 
-    // 读取itp, 选择性删除连接原子成键信息
+    // 读取itp, 更新H原子名, 选择性删除连接原子成键信息
     let itp_file = parent_path.join(mol2_stem + ".itp");
     println!("Input the itp file name (default: {}):", itp_file.to_str().unwrap());
     let inp = utils::get_input(itp_file.to_str().unwrap().to_string());
@@ -52,7 +52,7 @@ fn main() {
         true => utils::read_file(),
         false => inp
     };
-    let mut itp = Topol::from(itp_file.as_str());
+    let mut itp = Topol::from(itp_file.as_str(), mol2);
     // 输出rtp, 特殊处理2号规则
     let itp_stem = utils::get_stemname(&itp_file);
     let parent_path = utils::get_parent_path(&itp_file);
