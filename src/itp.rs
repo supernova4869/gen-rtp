@@ -133,7 +133,7 @@ impl Topol {
 
         // topol items
         let mut attypes: HashSet<TopolAtomtype> = HashSet::new();
-        let mut mol = "MOL".to_string();
+        let mut mol = mol2.mol.sys_name.to_string();
         let mut nrexcl = 3;
         let mut atoms: Vec<TopolAtom> = vec![];
         let mut bonds: Vec<TopolBond> = vec![];

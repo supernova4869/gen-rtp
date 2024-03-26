@@ -6,7 +6,7 @@ use crate::hdb::{get_adj_h_id, get_adj_heavy_id, get_htype_from_heavy_atom};
 #[allow(dead_code)]
 #[derive(Clone)]
 pub struct MOL2 {
-    mol: Molecule,
+    pub mol: Molecule,
     pub atoms: Vec<Atom>,
     pub bonds: Vec<Bond>,
 }
@@ -77,7 +77,7 @@ impl MOL2 {
 #[allow(dead_code)]
 #[derive(Clone)]
 pub struct Molecule {
-    sys_name: String,
+    pub sys_name: String,
     at_num: i32,
     bond_num: i32,
     sub_struct_num: i32,
