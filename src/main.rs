@@ -3,7 +3,6 @@ mod itp;
 mod hdb;
 mod utils;
 
-use std::path::Path;
 use mol2::MOL2;
 use hdb::get_adj_h_id;
 use itp::Topol;
@@ -11,7 +10,8 @@ use std::io;
 
 fn main() {
     // 读取mol2
-    println!("Input the mol2 file name:");
+    println!("Input the mol2 file name (enter to skip):");
+    // 加上跳过mol2的规则
     let mol2_file = utils::read_file();
     println!("Reading mol2 file: {}", mol2_file);
     
@@ -33,29 +33,29 @@ fn main() {
     }
     
     // 输出mol2
-    let mol2_file = Path::new(mol2_file.as_str());
-    let mol2_name = mol2_file.file_name().unwrap().to_str().unwrap();
-    let parent_path = mol2_file.parent().unwrap().join("new".to_string() + mol2_name);
-    let parent_path = parent_path.to_str().unwrap();
-    mol2.output(parent_path);
+    let mol2_name = utils::get_basename(&mol2_file);
+    let parent_path = utils::get_parent_path(&mol2_file);
+    let out = parent_path.join("new".to_string() + &mol2_name);
+    mol2.output(out.as_os_str().to_str().unwrap());
 
     // 读取itp, 选择性删除连接原子成键信息
     println!("Input the itp file name:");
     let itp_file = utils::read_file();
     let mut itp = Topol::from(itp_file.as_str());
+    // 输入排除列表
+    let (prev_atoms, next_atoms, prev_con_atom, next_con_atom) = utils::get_exclude_atoms();
     // 输出rtp, 特殊处理2号规则
-    let itp_file = Path::new(Path::new(itp_file.as_str()));
-    let parent_path = itp_file.parent().unwrap();
-    let stem = itp_file.file_stem().unwrap();
-    let rtp_name = stem.to_str().unwrap().to_string() + ".rtp";
-    let new_path = parent_path.join(rtp_name);
-    let new_path = new_path.to_str().unwrap();
-    itp.to_rtp(new_path, "amber", vec![], vec![59, 60, 61, 62, 63, 64, 65, 66], 0, 0);
+    let itp_stem = utils::get_stemname(&itp_file);
+    let parent_path = utils::get_parent_path(&itp_file);
+    let rtp_name = itp_stem.to_string() + ".rtp";
+    let out = &parent_path.join(rtp_name);
+    let out = out.as_os_str().to_str().unwrap();
+    itp.to_rtp(out, "amber", &prev_atoms, &next_atoms, prev_con_atom, next_con_atom);
     // 输出hdb, 根据H类型
-    let hdb_name = stem.to_str().unwrap().to_string() + ".hdb";
-    let new_path = parent_path.join(hdb_name);
-    let new_path = new_path.to_str().unwrap();
-    mol2.top2hdb(new_path, vec![], vec![59, 60, 61, 62, 63, 64, 65, 66]);
+    let hdb_name = itp_stem + ".hdb";
+    let out = parent_path.join(hdb_name);
+    let out = out.as_os_str().to_str().unwrap();
+    mol2.top2hdb(out, &prev_atoms, &next_atoms);
 
     println!("Press any key to exit");
     io::stdin().read_line(&mut String::new()).expect("Failed to read line");

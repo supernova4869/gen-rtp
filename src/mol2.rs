@@ -113,7 +113,7 @@ impl Molecule {
 #[allow(dead_code)]
 #[derive(Clone)]
 pub struct Atom {
-    pub atom_id: i32,
+    pub atom_id: usize,
     pub atom_name: String,
     x: f64,
     y: f64,
@@ -128,7 +128,7 @@ pub struct Atom {
 impl Atom {
     fn from(line: &str) -> Atom {
         let line: Vec<&str> = line.trim().split_whitespace().collect();
-        let atom_id: i32 = line[0].parse().unwrap();
+        let atom_id: usize = line[0].parse().unwrap();
         let atom_name: String = line[1].to_string();
         let x: f64 = line[2].parse().unwrap();
         let y: f64 = line[3].parse().unwrap();
@@ -155,18 +155,18 @@ impl Atom {
 #[allow(dead_code)]
 #[derive(Clone)]
 pub struct Bond {
-    bond_id: i32,
-    pub a1: i32,
-    pub a2: i32,
+    bond_id: usize,
+    pub a1: usize,
+    pub a2: usize,
     bt: String,
 }
 
 impl Bond {
     fn from(line: &str) -> Bond {
         let line: Vec<&str> = line.trim().split_whitespace().collect();
-        let bond_id: i32 = line[0].parse().unwrap();
-        let a1: i32 = line[1].parse().unwrap();
-        let a2: i32 = line[2].parse().unwrap();
+        let bond_id: usize = line[0].parse().unwrap();
+        let a1: usize = line[1].parse().unwrap();
+        let a2: usize = line[2].parse().unwrap();
         let bt: String = line[3].to_string();
         Bond {
             bond_id, a1, a2, bt
@@ -198,7 +198,7 @@ impl MOL2 {
         println!("Written to {}", outfile);
     }
 
-    pub fn top2hdb(&self, out: &str, exclude_n: Vec<i32>, exclude_c: Vec<i32>) {
+    pub fn top2hdb(&self, out: &str, exclude_n: &Vec<usize>, exclude_c: &Vec<usize>) {
         // atoms layout: H--i--j--k
         let mut items: Vec<HDBItem> = vec![];
         // 1. 找到所有的非排除重原子

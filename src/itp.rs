@@ -39,11 +39,11 @@ impl Hash for TopolAtomtype {
 
 #[derive(Clone, Debug)]
 pub struct TopolAtom {
-    nr: i32,
+    pub nr: usize,
     _type: String,
     resnr: i32,
     resname: String,
-    atom: String,
+    pub atom: String,
     cgnr: i32,
     charge: f64,
     mass: Option<f64>,
@@ -99,7 +99,7 @@ pub struct Topol {
     atomtypes: HashSet<TopolAtomtype>,
     moleculetype: String,
     nrexcl: i32,
-    atoms: Vec<TopolAtom>,
+    pub atoms: Vec<TopolAtom>,
     bonds: Vec<TopolBond>,
     pairs: Vec<TopolPair>,
     constraints: Vec<TopolConstraint>,
@@ -108,7 +108,7 @@ pub struct Topol {
     exclusions: Vec<TopolExclusion>,
 }
 
-fn get_atom_from_nr(atoms: &Vec<TopolAtom>, nr: i32) -> &TopolAtom {
+fn get_atom_from_nr(atoms: &Vec<TopolAtom>, nr: usize) -> &TopolAtom {
     atoms.iter().find(|&a| a.nr == nr).unwrap()
 }
 
@@ -183,16 +183,21 @@ impl Topol {
         }
     }
 
-    pub fn to_rtp(&mut self, outfile: &str, ff: &str, exclude_n: Vec<i32>, exclude_c: Vec<i32>, atom_n: i32, atom_c: i32) {
+    pub fn to_rtp(&mut self, outfile: &str, ff: &str, exclude_n: &Vec<usize>, exclude_c: &Vec<usize>, atom_n: Option<usize>, atom_c: Option<usize>) {
         // 首先把前后残基中的原子名加前缀
         for atom in &mut self.atoms {
-            if exclude_n.contains(&atom.nr) && atom.nr != atom_n {
-                if !atom.atom.starts_with("-") {
-                    atom.atom = "-".to_string() + &atom.atom;
+            if let Some(atom_n) = atom_n {
+                if exclude_n.contains(&atom.nr) && atom.nr != atom_n {
+                    if !atom.atom.starts_with("-") {
+                        atom.atom = "-".to_string() + &atom.atom;
+                    }
                 }
-            } else if exclude_c.contains(&atom.nr) && atom.nr != atom_c {
-                if !atom.atom.starts_with("+") {
-                    atom.atom = "+".to_string() + &atom.atom;
+            }
+            if let Some(atom_c) = atom_c {
+                if exclude_c.contains(&atom.nr) && atom.nr != atom_c {
+                    if !atom.atom.starts_with("+") {
+                        atom.atom = "+".to_string() + &atom.atom;
+                    }
                 }
             }
         }
@@ -405,7 +410,7 @@ impl Display for TopolAtomtype {
 impl TopolAtom {
     fn from(line: &String) -> TopolAtom {
         let paras: Vec<&str> = line.split_whitespace().collect();
-        let nr: i32 = paras[0].parse().unwrap();
+        let nr: usize = paras[0].parse().unwrap();
         let _type = paras[1].to_string();
         let resnr: i32 = paras[2].parse().unwrap();
         let resname = paras[3].to_string();
@@ -436,8 +441,8 @@ impl Display for TopolAtom {
 impl TopolBond {
     fn from(atoms: &Vec<TopolAtom>, line: &String) -> TopolBond {
         let paras: Vec<&str> = line.split_whitespace().collect();
-        let ai: i32 = paras[0].parse().unwrap();
-        let aj: i32 = paras[1].parse().unwrap();
+        let ai: usize = paras[0].parse().unwrap();
+        let aj: usize = paras[1].parse().unwrap();
         let funct: i32 = paras[2].parse().unwrap();
         let ai = get_atom_from_nr(atoms, ai).to_owned();
         let aj = get_atom_from_nr(atoms, aj).to_owned();
@@ -467,8 +472,8 @@ impl Display for TopolBond {
 impl TopolPair {
     fn from(atoms: &Vec<TopolAtom>, line: &String) -> TopolPair {
         let paras: Vec<&str> = line.split_whitespace().collect();
-        let ai: i32 = paras[0].parse().unwrap();
-        let aj: i32 = paras[1].parse().unwrap();
+        let ai: usize = paras[0].parse().unwrap();
+        let aj: usize = paras[1].parse().unwrap();
         let funct: i32 = paras[2].parse().unwrap();
         let ai = get_atom_from_nr(atoms, ai).to_owned();
         let aj = get_atom_from_nr(atoms, aj).to_owned();
@@ -485,8 +490,8 @@ impl Display for TopolPair {
 impl TopolConstraint {
     fn from(atoms: &Vec<TopolAtom>, line: &String) -> TopolConstraint {
         let paras: Vec<&str> = line.split_whitespace().collect();
-        let ai: i32 = paras[0].parse().unwrap();
-        let aj: i32 = paras[1].parse().unwrap();
+        let ai: usize = paras[0].parse().unwrap();
+        let aj: usize = paras[1].parse().unwrap();
         let funct: i32 = paras[2].parse().unwrap();
         let ai = get_atom_from_nr(atoms, ai).to_owned();
         let aj = get_atom_from_nr(atoms, aj).to_owned();
@@ -513,9 +518,9 @@ impl Display for TopolConstraint {
 impl TopolAngle {
     fn from(atoms: &Vec<TopolAtom>, line: &String) -> TopolAngle {
         let paras: Vec<&str> = line.split_whitespace().collect();
-        let ai: i32 = paras[0].parse().unwrap();
-        let aj: i32 = paras[1].parse().unwrap();
-        let ak: i32 = paras[2].parse().unwrap();
+        let ai: usize = paras[0].parse().unwrap();
+        let aj: usize = paras[1].parse().unwrap();
+        let ak: usize = paras[2].parse().unwrap();
         let funct: i32 = paras[3].parse().unwrap();
         let ai = get_atom_from_nr(atoms, ai).to_owned();
         let aj = get_atom_from_nr(atoms, aj).to_owned();
@@ -546,10 +551,10 @@ impl Display for TopolAngle {
 impl TopolDihedral {
     fn from(atoms: &Vec<TopolAtom>, line: &String) -> TopolDihedral {
         let paras: Vec<&str> = line.split_whitespace().collect();
-        let ai: i32 = paras[0].parse().unwrap();
-        let aj: i32 = paras[1].parse().unwrap();
-        let ak: i32 = paras[2].parse().unwrap();
-        let al: i32 = paras[3].parse().unwrap();
+        let ai: usize = paras[0].parse().unwrap();
+        let aj: usize = paras[1].parse().unwrap();
+        let ak: usize = paras[2].parse().unwrap();
+        let al: usize = paras[3].parse().unwrap();
         let funct: i32 = paras[4].parse().unwrap();
         let ai = get_atom_from_nr(atoms, ai).to_owned();
         let aj = get_atom_from_nr(atoms, aj).to_owned();
@@ -601,7 +606,7 @@ impl Display for TopolDihedral {
 impl TopolExclusion {
     fn from(atoms: &Vec<TopolAtom>, line: &String) -> TopolExclusion {
         let paras: Vec<&str> = line.split_whitespace().collect();
-        let atnums: Option<Vec<i32>> = match paras.get(..) {
+        let atnums: Option<Vec<usize>> = match paras.get(..) {
             Some(s) => Some(s.iter().map(|&s| s.parse().unwrap()).collect()),
             None => None
         };

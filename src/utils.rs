@@ -1,5 +1,8 @@
 use std::io;
+use std::path::{Path, PathBuf};
 use regex::Regex;
+use std::str::FromStr;
+use std::fmt::Debug;
 
 pub fn read_file() -> String {
     let mut inp: String = String::new();
@@ -11,4 +14,78 @@ pub fn read_file() -> String {
     };
     let re = Regex::new(r"\\").unwrap();
     re.replace_all(&inp, "/").to_string()
+}
+
+pub fn get_basename(fname: &str) -> String {
+    let file = Path::new(fname);
+    file.file_name().unwrap().to_str().unwrap().to_string()
+}
+
+pub fn get_stemname(fname: &str) -> String {
+    let file = Path::new(fname);
+    file.file_stem().unwrap().to_str().unwrap().to_string()
+}
+
+pub fn get_parent_path(fname: &str) -> PathBuf {
+    let file = Path::new(fname);
+    Path::new(file.parent().unwrap()).to_owned()
+}
+
+pub fn atrange2atlist(atom_selection_str: &str) -> Vec<usize> {
+    let mut selection_range: Vec<usize> = vec![];
+    if atom_selection_str.trim().is_empty() {
+        return selection_range;
+    }
+    let atom_selection_str = atom_selection_str.replace(" ", "");
+    let sub_selections: Vec<&str> = atom_selection_str.split(',').collect();
+    for s in sub_selections {
+        if s.contains('-') {
+            let r: Vec<&str> = s.split('-').collect();
+            let l: usize = r[0].parse().expect("Range lower bound not int");
+            let u: usize = r[1].parse().expect("Range upper bound not int");
+            selection_range.append(&mut (l..=u).collect());
+        } else {
+            let s: usize = s.parse().expect("Index not int");
+            selection_range.push(s);
+        }
+    }
+    return selection_range
+}
+
+fn get_input<T: FromStr>(default: T) -> T where <T as FromStr>::Err: Debug {
+    let mut inp: String = String::new();
+    io::stdin().read_line(&mut inp).expect("Failed to read line");
+    let inp = inp.trim();
+    match inp.is_empty() {
+        true => default,
+        false => inp.parse().unwrap()
+    }
+}
+
+pub fn get_exclude_atoms() -> (Vec<usize>, Vec<usize>, Option<usize>, Option<usize>) {
+    println!("Input atoms id of the previous residue, e.g., 1-3, 5 (leave blank if it is the first residue): ");
+    let prev_atoms = get_input("".to_string());
+    let prev_atoms = atrange2atlist(prev_atoms.as_str());
+    let prev_con_atom = match prev_atoms.is_empty() {
+        false => {
+            println!("Connection atom id of the previous residue (default: {}):", prev_atoms[0]);
+            Some(get_input(prev_atoms[0]))
+        },
+        true => {
+            None
+        }
+    };
+    println!("Input atoms id of the next residue, e.g., 1-3, 5 (leave blank if it is the last residue): ");
+    let next_atoms = get_input("".to_string());
+    let next_atoms = atrange2atlist(next_atoms.as_str());
+    let next_con_atom = match next_atoms.is_empty() {
+        false => {
+            println!("Connection atom id of the next residue (default: {}):", next_atoms[0]);
+            Some(get_input(next_atoms[0]))
+        },
+        true => {
+            None
+        }
+    };
+    (prev_atoms, next_atoms, prev_con_atom, next_con_atom)
 }

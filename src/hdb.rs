@@ -13,7 +13,7 @@ impl HDBItem {
     }
 }
 
-pub fn get_htype_from_heavy_atom(mol2: &MOL2, ref_id: i32) -> i32 {
+pub fn get_htype_from_heavy_atom(mol2: &MOL2, ref_id: usize) -> i32 {
     // 相连原子
     let adj = get_adj_atoms_id(mol2, ref_id);
     // 相连H
@@ -29,31 +29,31 @@ pub fn get_htype_from_heavy_atom(mol2: &MOL2, ref_id: i32) -> i32 {
     }
 }
 
-pub fn get_adj_atoms_id(mol2: &MOL2, ref_id: i32) -> Vec<i32> {
+pub fn get_adj_atoms_id(mol2: &MOL2, ref_id: usize) -> Vec<usize> {
     mol2.bonds.iter()
-        .filter(|&b| (b.a1 - ref_id) * (b.a2 - ref_id) == 0)
+        .filter(|&b| (b.a1 as i32 - ref_id as i32) * (b.a2 as i32 - ref_id as i32) == 0)
         .map(|b| b.a1 + b.a2 - ref_id)
         .collect()
 }
 
-pub fn get_adj_h_id(mol2: &MOL2, ref_id: i32) -> Vec<i32> {
+pub fn get_adj_h_id(mol2: &MOL2, ref_id: usize) -> Vec<usize> {
     let adj = get_adj_atoms_id(mol2, ref_id);
     filter_h(mol2, &adj)
 }
 
-pub fn get_adj_heavy_id(mol2: &MOL2, ref_id: i32) -> Vec<i32> {
+pub fn get_adj_heavy_id(mol2: &MOL2, ref_id: usize) -> Vec<usize> {
     let adj = get_adj_atoms_id(mol2, ref_id);
     filter_heavy(mol2, &adj)
 }
 
-fn filter_h(mol2: &MOL2, atoms_id: &Vec<i32>) -> Vec<i32> {
+fn filter_h(mol2: &MOL2, atoms_id: &Vec<usize>) -> Vec<usize> {
     atoms_id.iter()
         .filter(|&&a| mol2.atoms[a as usize - 1].element.eq("H"))
         .cloned()
         .collect()
 }
 
-fn filter_heavy(mol2: &MOL2, atoms_id: &Vec<i32>) -> Vec<i32> {
+fn filter_heavy(mol2: &MOL2, atoms_id: &Vec<usize>) -> Vec<usize> {
     atoms_id.iter()
         .filter(|&&a| mol2.atoms[a as usize - 1].element.ne("H"))
         .cloned()
