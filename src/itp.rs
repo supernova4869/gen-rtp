@@ -183,20 +183,27 @@ impl Topol {
         }
     }
 
-    pub fn to_rtp(&mut self, outfile: &str, ff: &str, exclude_n: &Vec<usize>, exclude_c: &Vec<usize>, atom_n: Option<usize>, atom_c: Option<usize>) {
-        // 首先把前后残基中的原子名加前缀
+    pub fn to_rtp(&mut self, outfile: &str, ff: &str, 
+        exclude_n: &Vec<usize>, exclude_c: &Vec<usize>, 
+        atom_n: Option<usize>, atom_c: Option<usize>,
+        n_name: &Option<String>, c_name: &Option<String>) {
+        // 前后残基中的原子名加前缀
         for atom in &mut self.atoms {
             if let Some(atom_n) = atom_n {
-                if exclude_n.contains(&atom.nr) && atom.nr != atom_n {
-                    if !atom.atom.starts_with("-") {
+                if exclude_n.contains(&atom.nr) {
+                    if atom.nr != atom_n {
                         atom.atom = "-".to_string() + &atom.atom;
+                    } else {
+                        atom.atom = n_name.as_ref().unwrap().to_string();
                     }
                 }
             }
             if let Some(atom_c) = atom_c {
-                if exclude_c.contains(&atom.nr) && atom.nr != atom_c {
-                    if !atom.atom.starts_with("+") {
+                if exclude_c.contains(&atom.nr) {
+                    if atom.nr != atom_c {
                         atom.atom = "+".to_string() + &atom.atom;
+                    } else {
+                        atom.atom = c_name.as_ref().unwrap().to_string();
                     }
                 }
             }

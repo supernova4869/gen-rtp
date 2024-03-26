@@ -31,31 +31,54 @@ fn main() {
             }
         }
     }
+    // 输入排除列表
+    let (prev_atoms, 
+        next_atoms, 
+        prev_con_atom, 
+        next_con_atom,
+        prev_atom_name,
+        next_atom_name) = utils::get_exclude_atoms();
     
     // 输出mol2
-    let mol2_name = utils::get_basename(&mol2_file);
+    let mol2_stem = utils::get_stemname(&mol2_file);
     let parent_path = utils::get_parent_path(&mol2_file);
-    let out = parent_path.join("new".to_string() + &mol2_name);
+    let out = parent_path.join("new".to_string() + &mol2_stem + ".mol2");
     mol2.output(out.as_os_str().to_str().unwrap());
 
     // 读取itp, 选择性删除连接原子成键信息
-    println!("Input the itp file name:");
-    let itp_file = utils::read_file();
+    let itp_file = parent_path.join(mol2_stem + ".itp");
+    println!("Input the itp file name (default: {}):", itp_file.to_str().unwrap());
+    let inp = utils::get_input(itp_file.to_str().unwrap().to_string());
+    let itp_file = match inp.is_empty() {
+        true => utils::read_file(),
+        false => inp
+    };
     let mut itp = Topol::from(itp_file.as_str());
-    // 输入排除列表
-    let (prev_atoms, next_atoms, prev_con_atom, next_con_atom) = utils::get_exclude_atoms();
     // 输出rtp, 特殊处理2号规则
     let itp_stem = utils::get_stemname(&itp_file);
     let parent_path = utils::get_parent_path(&itp_file);
     let rtp_name = itp_stem.to_string() + ".rtp";
     let out = &parent_path.join(rtp_name);
     let out = out.as_os_str().to_str().unwrap();
-    itp.to_rtp(out, "amber", &prev_atoms, &next_atoms, prev_con_atom, next_con_atom);
+    itp.to_rtp(out, 
+        "amber", 
+        &prev_atoms, 
+        &next_atoms, 
+        prev_con_atom, 
+        next_con_atom,
+        &prev_atom_name, 
+        &next_atom_name);
     // 输出hdb, 根据H类型
     let hdb_name = itp_stem + ".hdb";
     let out = parent_path.join(hdb_name);
     let out = out.as_os_str().to_str().unwrap();
-    mol2.top2hdb(out, &prev_atoms, &next_atoms);
+    mol2.to_hdb(out,
+        &prev_atoms, 
+        &next_atoms, 
+        prev_con_atom, 
+        next_con_atom,
+        &prev_atom_name, 
+        &next_atom_name);
 
     println!("Press any key to exit");
     io::stdin().read_line(&mut String::new()).expect("Failed to read line");

@@ -198,7 +198,32 @@ impl MOL2 {
         println!("Written to {}", outfile);
     }
 
-    pub fn top2hdb(&self, out: &str, exclude_n: &Vec<usize>, exclude_c: &Vec<usize>) {
+    pub fn to_hdb(&mut self, out: &str,
+        exclude_n: &Vec<usize>, exclude_c: &Vec<usize>,
+        atom_n: Option<usize>, atom_c: Option<usize>,
+        n_name: &Option<String>, c_name: &Option<String>) {
+        // 前后残基中的原子名加前缀
+        for atom in &mut self.atoms {
+            if let Some(atom_n) = atom_n {
+                if exclude_n.contains(&atom.atom_id) {
+                    if atom.atom_id != atom_n {
+                        atom.atom_name = "-".to_string() + &atom.atom_name;
+                    } else {
+                        atom.atom_name = n_name.as_ref().unwrap().to_string();
+                    }
+                }
+            }
+            if let Some(atom_c) = atom_c {
+                if exclude_c.contains(&atom.atom_id) {
+                    if atom.atom_id != atom_c {
+                        atom.atom_name = "+".to_string() + &atom.atom_name;
+                    } else {
+                        atom.atom_name = c_name.as_ref().unwrap().to_string();
+                    }
+                }
+            }
+        }
+
         // atoms layout: H--i--j--k
         let mut items: Vec<HDBItem> = vec![];
         // 1. 找到所有的非排除重原子
