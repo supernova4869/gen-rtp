@@ -10,7 +10,13 @@ use std::io;
 
 fn main() {
     // 读取mol2
-    println!("Input the mol2 file name:");
+    println!(" GEN-RTP: An `rtp` and `hdb` file generator to be used");
+    println!(" together with the Sobtop program.");
+    println!(" Website: https://github.com/supernovaZhangJiaXing/gen-rtp");
+    println!(" Developed by Jiaxing Zhang (zhangjiaxing7137@tju.edu.cn)");
+    println!(" Version 0.1.0, 2024-Mar-28");
+    println!();
+    println!("Input path of `mol2` file, e.g. D:\\Conan\\Haibara_Ai.mol2");
     let mol2_file = utils::read_file();
     println!("Reading mol2 file: {}", mol2_file);
     
@@ -41,11 +47,11 @@ fn main() {
     // 输出mol2
     let mol2_stem = utils::get_stemname(&mol2_file);
     let parent_path = utils::get_parent_path(&mol2_file);
-    let out = parent_path.join("new".to_string() + &mol2_stem + ".mol2");
+    let out = parent_path.join(mol2_stem.to_string() + ".mol2");
     mol2.output(out.as_os_str().to_str().unwrap());
 
     // 读取itp, 更新H原子名, 选择性删除连接原子成键信息
-    let itp_file = parent_path.join(mol2_stem + ".itp");
+    let itp_file = parent_path.join(mol2_stem.to_string() + ".itp");
     println!("Input the itp file name (default: {}):", itp_file.to_str().unwrap());
     let inp = utils::get_input(itp_file.to_str().unwrap().to_string());
     let itp_file = match inp.is_empty() {

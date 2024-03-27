@@ -1,4 +1,5 @@
 use std::{fs, io::Write};
+use std::path::Path;
 use crate::hdb::HDBItem;
 use crate::hdb::{get_adj_h_id, get_adj_heavy_id, get_htype_from_heavy_atom};
 
@@ -31,7 +32,7 @@ impl MOL2 {
         }).unwrap();
 
         // Molecule字段
-        let sys_name = Some(mol2_content[mol_ln + 1].trim().to_string());
+        let sys_name = Path::new(file).file_stem().unwrap().to_str();
         let num: Vec<i32> = mol2_content[mol_ln + 2].trim().split_whitespace().map(|s| s.parse().unwrap()).collect();
         let at_num = Some(num[0]);
         let bond_num = Some(num[1]);
@@ -88,9 +89,9 @@ pub struct Molecule {
 }
 
 impl Molecule {
-    pub fn new(sys_name: Option<String>, at_num: Option<i32>, bond_num: Option<i32>, sub_struct_num: Option<i32>, prop_num: Option<i32>, 
+    pub fn new(sys_name: Option<&str>, at_num: Option<i32>, bond_num: Option<i32>, sub_struct_num: Option<i32>, prop_num: Option<i32>, 
                set_num: Option<i32>, sys_type: Option<String>, at_charge: Option<String>) -> Molecule {
-        let sys_name = sys_name.unwrap_or("MOL".to_string());
+        let sys_name = sys_name.unwrap_or("MOL").to_string();
         let at_num = at_num.unwrap_or(0);
         let bond_num = bond_num.unwrap_or(0);
         let sub_struct_num = sub_struct_num.unwrap_or(0);
