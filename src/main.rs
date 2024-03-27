@@ -13,7 +13,8 @@ fn main() {
     println!(" GEN-RTP: An `rtp` and `hdb` file generator to be used");
     println!(" together with the Sobtop program.");
     println!(" Website: https://github.com/supernovaZhangJiaXing/gen-rtp");
-    println!(" Developed by Jiaxing Zhang (zhangjiaxing7137@tju.edu.cn)");
+    println!(" Developed by Jiaxing Zhang, Tianjin University");
+    println!(" Contact me: zhangjiaxing7137@tju.edu.cn");
     println!(" Version 0.1.0, 2024-Mar-28");
     println!();
     println!("Input path of `mol2` file, e.g. D:\\Conan\\Haibara_Ai.mol2");
