@@ -7,18 +7,30 @@ use mol2::MOL2;
 use hdb::get_adj_h_id;
 use itp::Topol;
 use std::io;
+use std::env;
+use std::process::exit;
 
 fn main() {
     // 读取mol2
     println!(" GEN-RTP: An `rtp` and `hdb` file generator to be used");
     println!(" together with the Sobtop program.");
     println!(" Website: https://github.com/supernovaZhangJiaXing/gen-rtp");
-    println!(" Developed by Jiaxing Zhang, Tianjin University");
+    println!(" Developed by Jiaxing Zhang, at Tianjin University");
     println!(" Contact me: zhangjiaxing7137@tju.edu.cn");
-    println!(" Version 0.1.0, 2024-Mar-28");
+    println!(" Version 0.1.3, 2024-Mar-28");
     println!();
     println!("Input path of `mol2` file, e.g. D:\\Conan\\Haibara_Ai.mol2");
-    let mol2_file = utils::read_file();
+    println!("(Hint: You can directly load it by `gen-rtp Miyano_Shiho.mol2)`");
+    let args: Vec<String> = env::args().collect();
+    let mol2_file = match args.len() {
+        1 => utils::read_file(),
+        2 => args[1].to_owned(),
+        _ => {
+            println!("Too more arguments.");
+            io::stdin().read_line(&mut String::new()).unwrap();
+            exit(0)
+        }
+    };
     println!("Reading mol2 file: {}", mol2_file);
     
     let mol2 = &mut MOL2::from(mol2_file.as_str());

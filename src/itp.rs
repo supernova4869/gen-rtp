@@ -214,7 +214,7 @@ impl Topol {
 
         let mut file = fs::File::create(outfile).unwrap();
         
-        file.write_all(b"; rtp created by gen-rtp\n").unwrap();
+        file.write_all(b"; rtp created by gen-rtp (https://github.com/supernovaZhangJiaXing/gen-rtp)\n").unwrap();
         file.write_all(format!("; converted from top of {}\n\n", self.moleculetype).as_bytes()).unwrap();
         if ff == "amber" {
             file.write_all(b"[ bondedtypes ]\n").unwrap();
@@ -351,7 +351,7 @@ impl Topol {
 
 impl Display for Topol {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let mut out = format!("; Created by gen-rtp (https://gitee.com/supernova_bingbing/SuperMDA)\n");
+        let mut out = format!("; Created by gen-rtp (https://github.com/supernovaZhangJiaXing/gen-rtp)\n");
         // 输出原子类型
         if !self.atomtypes.is_empty() {
             out.push_str("\n[ atomtypes ]\n; name    at.num        mass       charge    ptype      sigma (nm)      epsilon (kJ/mol)\n");

@@ -2,6 +2,7 @@ use std::{fs, io::Write};
 use std::path::Path;
 use crate::hdb::HDBItem;
 use crate::hdb::{get_adj_h_id, get_adj_heavy_id, get_htype_from_heavy_atom};
+use std::fmt::{self, Debug, Display};
 
 #[derive(Debug)]
 #[allow(dead_code)]
@@ -88,6 +89,13 @@ pub struct Molecule {
     at_charge: String,
 }
 
+impl Display for Molecule {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "@<TRIPOS>MOLECULE\n{}\n{:5}{:6}     1 0 0\n{}\n{}\n\n", 
+            self.sys_name, self.at_num, self.bond_num, self.sys_type, self.at_charge)
+    }
+}
+
 impl Molecule {
     pub fn new(sys_name: Option<&str>, at_num: Option<i32>, bond_num: Option<i32>, sub_struct_num: Option<i32>, prop_num: Option<i32>, 
                set_num: Option<i32>, sys_type: Option<String>, at_charge: Option<String>) -> Molecule {
@@ -102,11 +110,6 @@ impl Molecule {
         Molecule {
             sys_name, at_num, bond_num, sub_struct_num, prop_num, set_num, sys_type,at_charge
         }
-    }
-
-    fn output(&self) -> String {
-        "@<TRIPOS>MOLECULE\n".to_string() + format!("{}\n{:5}{:6}     1 0 0\n{}\n{}\n\n", 
-            self.sys_name, self.at_num, self.bond_num, self.sys_type, self.at_charge).as_str()
     }
 }
 
@@ -124,6 +127,14 @@ pub struct Atom {
     sub_struct_name: Option<String>,
     atom_charge: Option<f64>,
     pub element: String
+}
+
+impl Display for Atom {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{:7} {:10}{:12.4}{:12.4}{:12.4} {:7}{:3} {:9}{:8.4}\n", 
+            self.atom_id, self.atom_name, self.x, self.y, self.z, self.at, 
+            self.sub_struct_id.unwrap_or(0), self.sub_struct_name.to_owned().unwrap(), self.atom_charge.unwrap_or(0.0))
+    }
 }
 
 impl Atom {
@@ -144,12 +155,6 @@ impl Atom {
             atom_id, atom_name, x, y, z, at, sub_struct_id, sub_struct_name, atom_charge, element
         }
     }
-
-    fn output(&self) -> String {
-        format!("{:7} {:10}{:12.4}{:12.4}{:12.4} {:7}{:3} {:9}{:8.4}\n", 
-            self.atom_id, self.atom_name, self.x, self.y, self.z, self.at, 
-            self.sub_struct_id.unwrap_or(0), self.sub_struct_name.to_owned().unwrap(), self.atom_charge.unwrap_or(0.0))
-    }
 }
 
 #[derive(Debug)]
@@ -160,6 +165,13 @@ pub struct Bond {
     pub a1: usize,
     pub a2: usize,
     bt: String,
+}
+
+impl Display for Bond {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{:6}{:5}{:5} {}\n", 
+            self.bond_id, self.a1, self.a2, self.bt)
+    }
 }
 
 impl Bond {
@@ -173,29 +185,28 @@ impl Bond {
             bond_id, a1, a2, bt
         }
     }
+}
 
-    fn output(&self) -> String {
-        format!("{:6}{:5}{:5} {}\n", 
-            self.bond_id, self.a1, self.a2, self.bt)
+impl Display for MOL2 {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let mut out = format!("; Created by gen-rtp (https://github.com/supernovaZhangJiaXing/gen-rtp)\n\n");
+        out.push_str(format!("{}", self.mol).as_str());
+        out.push_str("@<TRIPOS>ATOM\n");
+        for a in &self.atoms {
+            out.push_str(format!("{}", a).as_str());
+        }
+        out.push_str("@<TRIPOS>BOND\n");
+        for b in &self.bonds {
+            out.push_str(format!("{}", b).as_str());
+        }
+        write!(f, "{}", out)
     }
 }
 
 impl MOL2 {
     pub fn output(&self, outfile: &str) {
-        // TODO: 输出文件
         let mut file = fs::File::create(outfile).unwrap();
-        
-        file.write_all(b"#	Created by:	gen-rtp\n#	Author:	Supernova\n\n").unwrap();
-        file.write_all(self.mol.output().as_bytes()).unwrap();
-        file.write_all(b"@<TRIPOS>ATOM\n").unwrap();
-        for a in &self.atoms {
-            file.write_fmt(format_args!("{}", a.output())).unwrap();
-        }
-        file.write_all(b"@<TRIPOS>BOND\n").unwrap();
-        for b in &self.bonds {
-            file.write_fmt(format_args!("{}", b.output())).unwrap();
-        }
-        
+        file.write_fmt(format_args!("{}", self)).unwrap();
         println!("Written to {}", outfile);
     }
 
