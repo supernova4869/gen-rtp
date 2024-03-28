@@ -16,7 +16,7 @@ An `rtp` and `hdb` file generator to be used together with the [Sobtop](http://s
 
 ### Bond, Angle, Dihedral, Improper Item Retain Rules
 
-- Bond: for Amber force field, retain "-C"; for Gromos force field, retain "+N"
+- Bond: for AMBER force field, retain "-C"; for GROMOS force field, retain "+N"
 - Angle: Remove all exclude items
 - Dihedral: Remove all exclude items
 - Improper: Retain those only contain the connect atom
