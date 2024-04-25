@@ -33,7 +33,7 @@ impl MOL2 {
         }).unwrap();
 
         // Molecule字段
-        let sys_name = Path::new(file).file_stem().unwrap().to_str();
+        let sys_name = Path::new(file).file_stem().unwrap().to_str().unwrap();
         let num: Vec<i32> = mol2_content[mol_ln + 2].trim().split_whitespace().map(|s| s.parse().unwrap()).collect();
         let at_num = Some(num[0]);
         let bond_num = Some(num[1]);
@@ -54,7 +54,9 @@ impl MOL2 {
         }).unwrap();
         let mut atoms: Vec<Atom> = Vec::new();
         for &at_line in &mol2_content[atom_ln + 1 .. atom_ln + 1 + at_num.unwrap() as usize] {
-            atoms.push(Atom::from(at_line));
+            let mut atom = Atom::from(at_line);
+            atom.sub_struct_name = sys_name.to_string();
+            atoms.push(atom);
         }
         
         // Bond字段
@@ -97,9 +99,9 @@ impl Display for Molecule {
 }
 
 impl Molecule {
-    pub fn new(sys_name: Option<&str>, at_num: Option<i32>, bond_num: Option<i32>, sub_struct_num: Option<i32>, prop_num: Option<i32>, 
+    pub fn new(sys_name: &str, at_num: Option<i32>, bond_num: Option<i32>, sub_struct_num: Option<i32>, prop_num: Option<i32>, 
                set_num: Option<i32>, sys_type: Option<String>, at_charge: Option<String>) -> Molecule {
-        let sys_name = sys_name.unwrap_or("MOL").to_string();
+        let sys_name = sys_name.to_string();
         let at_num = at_num.unwrap_or(0);
         let bond_num = bond_num.unwrap_or(0);
         let sub_struct_num = sub_struct_num.unwrap_or(0);
@@ -123,8 +125,8 @@ pub struct Atom {
     y: f64,
     z: f64,
     at: String,
-    sub_struct_id: Option<i32>,
-    sub_struct_name: Option<String>,
+    sub_struct_id: i32,
+    sub_struct_name: String,
     atom_charge: Option<f64>,
     pub element: String
 }
@@ -133,7 +135,7 @@ impl Display for Atom {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{:7} {:10}{:12.4}{:12.4}{:12.4} {:7}{:3} {:9}{:8.4}\n", 
             self.atom_id, self.atom_name, self.x, self.y, self.z, self.at, 
-            self.sub_struct_id.unwrap_or(0), self.sub_struct_name.to_owned().unwrap(), self.atom_charge.unwrap_or(0.0))
+            self.sub_struct_id, self.sub_struct_name, self.atom_charge.unwrap_or(0.0))
     }
 }
 
@@ -146,8 +148,9 @@ impl Atom {
         let y: f64 = line[3].parse().unwrap();
         let z: f64 = line[4].parse().unwrap();
         let at: String = line[5].to_string();
-        let sub_struct_id: Option<i32> = Some(line[6].parse().unwrap());
-        let sub_struct_name: Option<String> = Some(line[7].to_string());
+        // 修改残基名为MOL, 残基编号为1
+        let sub_struct_id = 1;
+        let sub_struct_name = "MOL".to_string();
         let atom_charge: Option<f64> = Some(line[8].parse().unwrap());
         let element: Vec<&str> = at.split(".").collect();
         let element = element[0].to_string();
@@ -189,7 +192,7 @@ impl Bond {
 
 impl Display for MOL2 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let mut out = format!("; Created by gen-rtp (https://github.com/supernovaZhangJiaXing/gen-rtp)\n\n");
+        let mut out = format!("; Created by gen-rtp (https://github.com/supernova4869/gen-rtp)\n\n");
         out.push_str(format!("{}", self.mol).as_str());
         out.push_str("@<TRIPOS>ATOM\n");
         for a in &self.atoms {
@@ -213,7 +216,9 @@ impl MOL2 {
     pub fn to_hdb(&mut self, out: &str,
         exclude_n: &Vec<usize>, exclude_c: &Vec<usize>,
         atom_n: Option<usize>, atom_c: Option<usize>,
-        n_name: &Option<String>, c_name: &Option<String>) {
+        n_name: &Option<String>, c_name: &Option<String>,
+        atom_adjn: Option<usize>, atom_adjc: Option<usize>,
+        adjn_name: &Option<String>, adjc_name: &Option<String>) {
         // 前后残基中的原子名加前缀
         for atom in &mut self.atoms {
             if let Some(atom_n) = atom_n {
@@ -232,6 +237,16 @@ impl MOL2 {
                     } else {
                         atom.atom_name = c_name.as_ref().unwrap().to_string();
                     }
+                }
+            }
+            if let Some(atom_adjn) = atom_adjn {
+                if atom.atom_id == atom_adjn {
+                    atom.atom_name = adjn_name.as_ref().unwrap().to_string();
+                }
+            }
+            if let Some(atom_adjc) = atom_adjc {
+                if atom.atom_id == atom_adjc {
+                    atom.atom_name = adjc_name.as_ref().unwrap().to_string();
                 }
             }
         }

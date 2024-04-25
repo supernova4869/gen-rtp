@@ -189,7 +189,9 @@ impl Topol {
     pub fn to_rtp(&mut self, outfile: &str, ff: &str, 
         exclude_n: &Vec<usize>, exclude_c: &Vec<usize>, 
         atom_n: Option<usize>, atom_c: Option<usize>,
-        n_name: &Option<String>, c_name: &Option<String>) {
+        n_name: &Option<String>, c_name: &Option<String>,
+        atom_adjn: Option<usize>, atom_adjc: Option<usize>,
+        adjn_name: &Option<String>, adjc_name: &Option<String>) {
         // 前后残基中的原子名加前缀
         for atom in &mut self.atoms {
             if let Some(atom_n) = atom_n {
@@ -210,11 +212,21 @@ impl Topol {
                     }
                 }
             }
+            if let Some(atom_adjn) = atom_adjn {
+                if atom.nr == atom_adjn {
+                    atom.atom = adjn_name.as_ref().unwrap().to_string();
+                }
+            }
+            if let Some(atom_adjc) = atom_adjc {
+                if atom.nr == atom_adjc {
+                    atom.atom = adjc_name.as_ref().unwrap().to_string();
+                }
+            }
         }
 
         let mut file = fs::File::create(outfile).unwrap();
         
-        file.write_all(b"; rtp created by gen-rtp (https://github.com/supernovaZhangJiaXing/gen-rtp)\n").unwrap();
+        file.write_all(b"; rtp created by gen-rtp (https://github.com/supernova4869/gen-rtp)\n").unwrap();
         file.write_all(format!("; converted from top of {}\n\n", self.moleculetype).as_bytes()).unwrap();
         if ff == "amber" {
             file.write_all(b"[ bondedtypes ]\n").unwrap();
@@ -351,7 +363,7 @@ impl Topol {
 
 impl Display for Topol {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let mut out = format!("; Created by gen-rtp (https://github.com/supernovaZhangJiaXing/gen-rtp)\n");
+        let mut out = format!("; Created by gen-rtp (https://github.com/supernova4869/gen-rtp)\n");
         // 输出原子类型
         if !self.atomtypes.is_empty() {
             out.push_str("\n[ atomtypes ]\n; name    at.num        mass       charge    ptype      sigma (nm)      epsilon (kJ/mol)\n");

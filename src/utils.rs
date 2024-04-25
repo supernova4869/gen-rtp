@@ -55,36 +55,52 @@ pub fn get_input<T: FromStr>(default: T) -> T where <T as FromStr>::Err: Debug {
     }
 }
 
-pub fn get_exclude_atoms() -> (Vec<usize>, Vec<usize>, Option<usize>, Option<usize>, Option<String>, Option<String>) {
+pub fn get_exclude_atoms() -> (Vec<usize>, Vec<usize>, 
+                               Option<usize>, Option<usize>, 
+                               Option<String>, Option<String>,
+                               Option<usize>, Option<usize>, 
+                               Option<String>, Option<String>) {
     println!("Input atoms id of the previous residue, e.g., 1-3, 5 (leave blank if it is the first residue): ");
     let prev_atoms = get_input("".to_string());
     let prev_atoms = atrange2atlist(prev_atoms.as_str());
-    let (prev_con_atom, prev_atom_name) = match prev_atoms.is_empty() {
+    let (prev_con_atom, prev_con_atom_name, prev_adj_atom, prev_adj_atom_name) = match prev_atoms.is_empty() {
         false => {
             println!("Connection atom id of the previous residue (default: {}): ", prev_atoms[0]);
             let prev_con_atom = get_input(prev_atoms[0]);
-            println!("Rename connection atom to (default: {}): ", "-C");
+            println!("Rename connection atom name to (default: -C): ");
             let prev_atom_name = get_input("-C".to_string());
-            (Some(prev_con_atom), Some(prev_atom_name))
+            println!("Connection atom id of the current residue to previous (default: {})): ", prev_atoms[prev_atoms.len() - 1] + 1);
+            let prev_adj_atom = get_input(prev_atoms[prev_atoms.len() - 1] + 1);
+            println!("Rename connection atom name to (default: N): ");
+            let prev_adj_atom_name = get_input("N".to_string());
+            (Some(prev_con_atom), Some(prev_atom_name), Some(prev_adj_atom), Some(prev_adj_atom_name))
         },
         true => {
-            (None, None)
+            (None, None, None, None)
         }
     };
     println!("Input atoms id of the next residue, e.g., 1-3, 5 (leave blank if it is the last residue): ");
     let next_atoms = get_input("".to_string());
     let next_atoms = atrange2atlist(next_atoms.as_str());
-    let (next_con_atom, next_atom_name) = match next_atoms.is_empty() {
+    let (next_con_atom, next_atom_name, next_adj_atom, next_adj_atom_name) = match next_atoms.is_empty() {
         false => {
             println!("Connection atom id of the next residue (default: {}): ", next_atoms[0]);
             let next_con_atom = get_input(next_atoms[0]);
-            println!("Rename connection atom to (default: {}): ", "+N");
-            let next_atom_name = get_input("+N".to_string());
-            (Some(next_con_atom), Some(next_atom_name))
+            println!("Rename connection atom to (default: +N): ");
+            let next_con_atom_name = get_input("+N".to_string());
+            println!("Connection atom id of the current residue to next (default: {})): ", next_atoms[next_atoms.len() - 1] + 1);
+            let next_adj_atom = get_input(next_atoms[next_atoms.len() - 1] + 1);
+            println!("Rename connection atom to (default: C): ");
+            let next_adj_atom_name = get_input("C".to_string());
+            (Some(next_con_atom), Some(next_con_atom_name), Some(next_adj_atom), Some(next_adj_atom_name))
         },
         true => {
-            (None, None)
+            (None, None, None, None)
         }
     };
-    (prev_atoms, next_atoms, prev_con_atom, next_con_atom, prev_atom_name, next_atom_name)
+    (prev_atoms, next_atoms, 
+        prev_con_atom, next_con_atom, 
+        prev_con_atom_name, next_atom_name, 
+        prev_adj_atom, next_adj_atom,
+        prev_adj_atom_name, next_adj_atom_name)
 }
