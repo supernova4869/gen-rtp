@@ -11,6 +11,8 @@ use std::io;
 use std::env;
 use std::process::exit;
 
+use crate::utils::get_input;
+
 fn main() {
     // 读取mol2
     println!(" GEN-RTP v0.2: An `rtp` and `hdb` file generator to be used");
@@ -20,7 +22,7 @@ fn main() {
     println!(" Contact me: zhangjiaxing7137@tju.edu.cn");
     println!();
     println!("Input path of `mol2` file, e.g. D:/Conan/Haibara_Ai.mol2");
-    println!("(Hint: You can directly load it by `gen-rtp Miyano_Shiho.mol2)`");
+    println!("(Hint: You can directly load it by `gen-rtp Miyano_Shiho.mol2`)");
     let args: Vec<String> = env::args().collect();
     let mol2_file = match args.len() {
         1 => utils::read_file(),
@@ -32,6 +34,15 @@ fn main() {
         }
     };
     println!("Reading mol2 file: {}", mol2_file);
+    
+    // 修改原子名
+    println!("Change heavy atom names to element+sequence? (y/n)");
+    let change_name = get_input("y".to_string());
+    let change_name = if change_name.starts_with(['y', 'Y']) {
+        true
+    } else {
+        false
+    };
     
     // 输入排除列表
     let (prev_atoms, 
@@ -45,7 +56,6 @@ fn main() {
          prev_adj_atom_name,
          next_adj_atom_name) = utils::get_exclude_atoms();
     
-    // 修改原子名
     println!("Fixing atom names...");
     let mol2 = &mut MOL2::from(mol2_file.as_str());
     let mol2_bak = &mol2.clone();
@@ -53,12 +63,14 @@ fn main() {
     for a in &mol2_bak.atoms {
         if a.element.ne("H") {
             // 修改重原子命名为元素名+该元素出现次数
-            if let Some(e) = map.get_mut(&a.element.as_str()) {
-                *e += 1;
-            } else {
-                map.insert(a.element.as_str(), 1);
-            };
-            mol2.atoms[a.atom_id - 1].atom_name = a.element.to_owned() + map.get(a.element.as_str()).unwrap().to_string().as_str();
+            if change_name {
+                if let Some(e) = map.get_mut(&a.element.as_str()) {
+                    *e += 1;
+                } else {
+                    map.insert(a.element.as_str(), 1);
+                };
+                mol2.atoms[a.atom_id - 1].atom_name = a.element.to_owned() + map.get(a.element.as_str()).unwrap().to_string().as_str();
+            }
             if let Some(prev_adj_atom) = prev_adj_atom {
                 if a.atom_id == prev_adj_atom {
                     mol2.atoms[prev_adj_atom - 1].atom_name = prev_adj_atom_name.to_owned().unwrap();
