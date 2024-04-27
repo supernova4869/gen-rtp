@@ -89,7 +89,7 @@ pub fn get_exclude_atoms() -> (Vec<usize>, Vec<usize>,
             println!("Rename connection atom to (default: +N): ");
             let next_con_atom_name = get_input("+N".to_string());
             println!("Connection atom id of the current residue to next (default: {})): ", next_atoms[next_atoms.len() - 1] + 1);
-            let next_adj_atom = get_input(next_atoms[next_atoms.len() - 1] + 1);
+            let next_adj_atom = get_input(next_atoms[0] - 1);
             println!("Rename connection atom to (default: C): ");
             let next_adj_atom_name = get_input("C".to_string());
             (Some(next_con_atom), Some(next_con_atom_name), Some(next_adj_atom), Some(next_adj_atom_name))
