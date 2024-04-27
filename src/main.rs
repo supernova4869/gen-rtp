@@ -6,7 +6,6 @@ mod utils;
 use mol2::MOL2;
 use hdb::get_adj_h_id;
 use itp::Topol;
-use std::collections::HashMap;
 use std::io;
 use std::env;
 use std::process::exit;
@@ -59,17 +58,13 @@ fn main() {
     println!("Fixing atom names...");
     let mol2 = &mut MOL2::from(mol2_file.as_str());
     let mol2_bak = &mol2.clone();
-    let mut map: HashMap<&str, usize> = HashMap::new();
+    let mut heavy_atom_id = 1;
     for a in &mol2_bak.atoms {
         if a.element.ne("H") {
             // 修改重原子命名为元素名+该元素出现次数
             if change_name {
-                if let Some(e) = map.get_mut(&a.element.as_str()) {
-                    *e += 1;
-                } else {
-                    map.insert(a.element.as_str(), 1);
-                };
-                mol2.atoms[a.atom_id - 1].atom_name = a.element.to_owned() + map.get(a.element.as_str()).unwrap().to_string().as_str();
+                mol2.atoms[a.atom_id - 1].atom_name = a.element.to_owned() + heavy_atom_id.to_string().as_str();
+                heavy_atom_id += 1;
             }
             if let Some(prev_adj_atom) = prev_adj_atom {
                 if a.atom_id == prev_adj_atom {
@@ -85,7 +80,7 @@ fn main() {
             let adj_h = get_adj_h_id(mol2, a.atom_id);
             for (i, &h) in adj_h.iter().enumerate() {
                 // 根据相连H数量修改H名字
-                let h_basename = mol2_bak.get_hbasename(&mol2_bak.atoms[h as usize - 1]);
+                let h_basename = mol2.get_hbasename(&mol2.atoms[h as usize - 1]);
                 mol2.atoms[h as usize - 1].atom_name = match adj_h.len() {
                     1 => h_basename,
                     _ => h_basename + (i + 1).to_string().as_str()
