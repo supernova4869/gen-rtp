@@ -35,7 +35,7 @@ fn main() {
     println!("Reading mol2 file: {}", mol2_file);
     
     // 修改原子名
-    println!("Change heavy atom names to element+sequence? (y/n)");
+    println!("Change heavy atom names to element+id? (y/n)");
     let change_name = get_input("y".to_string());
     let change_name = if change_name.starts_with(['y', 'Y']) {
         true
