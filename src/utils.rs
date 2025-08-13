@@ -70,7 +70,7 @@ pub fn get_exclude_atoms() -> (Vec<usize>, Vec<usize>,
             println!("Rename connection atom name to (default: -C): ");
             println!("(IMPORTANT: please ensure the new atom name is correct)");
             let prev_atom_name = get_input("-C".to_string());
-            println!("Connection atom id of the current residue to previous (default: {})): ", prev_atoms[prev_atoms.len() - 1] + 1);
+            println!("Connection atom id of the current residue to previous (default: {}): ", prev_atoms[prev_atoms.len() - 1] + 1);
             let prev_adj_atom = get_input(prev_atoms[prev_atoms.len() - 1] + 1);
             println!("Rename connection atom name to (default: N): ");
             println!("(IMPORTANT: please ensure the new atom name is correct)");
@@ -91,7 +91,7 @@ pub fn get_exclude_atoms() -> (Vec<usize>, Vec<usize>,
             println!("Rename connection atom to (default: +N): ");
             println!("(IMPORTANT: please ensure the new atom name is correct)");
             let next_con_atom_name = get_input("+N".to_string());
-            println!("Connection atom id of the current residue to next (default: {})): ", next_atoms[next_atoms.len() - 1] + 1);
+            println!("Connection atom id of the current residue to next (default: {}): ", next_atoms[next_atoms.len() - 1] + 1);
             let next_adj_atom = get_input(next_atoms[0] - 1);
             println!("Rename connection atom to (default: C): ");
             println!("(IMPORTANT: please ensure the new atom name is correct)");
