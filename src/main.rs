@@ -14,8 +14,8 @@ use crate::utils::get_input;
 
 fn main() {
     // 读取mol2
-    println!(" GEN-RTP v0.2: An `rtp` and `hdb` file generator to be used");
-    println!(" together with the Sobtop program.");
+    println!(" GEN-RTP v0.3: An `rtp` and `hdb` file generator to be used");
+    println!(" together with acpype or Sobtop.");
     println!(" Website: https://github.com/supernova4869/gen-rtp");
     println!(" Developed by Jiaxing Zhang, at Tianjin University");
     println!(" Contact me: zhangjiaxing7137@tju.edu.cn");
@@ -35,7 +35,7 @@ fn main() {
     println!("Reading mol2 file: {}", mol2_file);
     
     // 修改原子名
-    println!("Change heavy atom names to element+id? (y/n)");
+    println!("Change heavy atom names to element+id? ([y]/n)");
     let change_name = get_input("y".to_string());
     let change_name = if change_name.starts_with(['y', 'Y']) {
         true
@@ -104,17 +104,9 @@ fn main() {
         true => utils::read_file(),
         false => inp
     };
-    let mut itp = Topol::from(itp_file.as_str(), mol2);
-    // 输出rtp, 特殊处理2号规则
-    let itp_stem = utils::get_stemname(&itp_file);
-    let parent_path = utils::get_parent_path(&itp_file);
-    let rtp_name = itp_stem.to_string() + ".rtp";
-    let out = &parent_path.join(rtp_name);
-    let out = out.as_os_str().to_str().unwrap();
-    itp.to_rtp(out, 
-        "amber", 
+    let mut itp = Topol::from(itp_file.as_str(), mol2, 
         &prev_atoms, 
-        &next_atoms, 
+        &next_atoms,
         prev_con_atom, 
         next_con_atom,
         &prev_con_atom_name, 
@@ -124,6 +116,13 @@ fn main() {
         &prev_adj_atom_name, 
         &next_adj_atom_name,
     );
+    // 输出rtp, 特殊处理2号规则
+    let itp_stem = utils::get_stemname(&itp_file);
+    let parent_path = utils::get_parent_path(&itp_file);
+    let rtp_name = itp_stem.to_string() + ".rtp";
+    let out = &parent_path.join(rtp_name);
+    let out = out.as_os_str().to_str().unwrap();
+    itp.to_rtp(out, "amber", &prev_atoms, &next_atoms);
     // 输出hdb, 根据H类型
     let hdb_name = itp_stem + ".hdb";
     let out = parent_path.join(hdb_name);

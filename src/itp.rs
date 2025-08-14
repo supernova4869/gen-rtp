@@ -120,7 +120,13 @@ fn get_atom_from_nr(atoms: &Vec<TopolAtom>, nr: usize) -> &TopolAtom {
 // }
 
 impl Topol {
-    pub fn from(file: &str, mol2: &MOL2) -> Topol {
+    pub fn from(file: &str, mol2: &MOL2, 
+        exclude_n: &Vec<usize>, exclude_c: &Vec<usize>,
+        atom_n: Option<usize>, atom_c: Option<usize>,
+        n_name: &Option<String>, c_name: &Option<String>,
+        atom_adjn: Option<usize>, atom_adjc: Option<usize>,
+        adjn_name: &Option<String>, adjc_name: &Option<String>,
+    ) -> Topol {
         println!("Reading topology of {}...", file);
         let lines = fs::read_to_string(file).unwrap();
         let lines: Vec<&str> = lines.split("\n").collect();
@@ -162,6 +168,32 @@ impl Topol {
                     // Fuck, I must change the atom name here
                     let mut a = TopolAtom::from(line);
                     a.atom = mol2.atoms[a.nr - 1].atom_name.to_string();
+                    if let Some(atom_n) = atom_n {
+                        if a.nr == atom_n {
+                            a.atom = n_name.as_ref().unwrap().to_string();
+                        }
+                    }
+                    if let Some(atom_c) = atom_c {
+                        if a.nr == atom_c {
+                            a.atom = c_name.as_ref().unwrap().to_string();
+                        }
+                    }
+                    if let Some(atom_adjn) = atom_adjn {
+                        if a.nr == atom_adjn {
+                            a.atom = adjn_name.as_ref().unwrap().to_string();
+                        }
+                    }
+                    if let Some(atom_adjc) = atom_adjc {
+                        if a.nr == atom_adjc {
+                            a.atom = adjc_name.as_ref().unwrap().to_string();
+                        }
+                    }
+                    if exclude_n.contains(&a.nr) {
+                        a.atom = format!("-{}", a.atom.trim_start_matches('-'));
+                    }
+                    if exclude_c.contains(&a.nr) {
+                        a.atom = format!("+{}", a.atom.trim_start_matches('+'));
+                    }
                     atoms.push(a);
                 } else if cur_item == "bonds" {
                     bonds.push(TopolBond::from(&atoms, line));
@@ -187,43 +219,7 @@ impl Topol {
     }
 
     pub fn to_rtp(&mut self, outfile: &str, ff: &str, 
-        exclude_n: &Vec<usize>, exclude_c: &Vec<usize>, 
-        atom_n: Option<usize>, atom_c: Option<usize>,
-        n_name: &Option<String>, c_name: &Option<String>,
-        atom_adjn: Option<usize>, atom_adjc: Option<usize>,
-        adjn_name: &Option<String>, adjc_name: &Option<String>) {
-        // 前后残基中的原子名加前缀
-        for atom in &mut self.atoms {
-            if let Some(atom_n) = atom_n {
-                if exclude_n.contains(&atom.nr) {
-                    if atom.nr != atom_n {
-                        atom.atom = "-".to_string() + &atom.atom;
-                    } else {
-                        atom.atom = n_name.as_ref().unwrap().to_string();
-                    }
-                }
-            }
-            if let Some(atom_c) = atom_c {
-                if exclude_c.contains(&atom.nr) {
-                    if atom.nr != atom_c {
-                        atom.atom = "+".to_string() + &atom.atom;
-                    } else {
-                        atom.atom = c_name.as_ref().unwrap().to_string();
-                    }
-                }
-            }
-            if let Some(atom_adjn) = atom_adjn {
-                if atom.nr == atom_adjn {
-                    atom.atom = adjn_name.as_ref().unwrap().to_string();
-                }
-            }
-            if let Some(atom_adjc) = atom_adjc {
-                if atom.nr == atom_adjc {
-                    atom.atom = adjc_name.as_ref().unwrap().to_string();
-                }
-            }
-        }
-
+        exclude_n: &Vec<usize>, exclude_c: &Vec<usize>) {
         let mut file = fs::File::create(outfile).unwrap();
         
         file.write_all(b"; rtp created by gen-rtp (https://github.com/supernova4869/gen-rtp)\n").unwrap();
@@ -263,27 +259,9 @@ impl Topol {
         match ff {      // amber力场保留-, gromos力场保留+
             "amber" => {
                 self.bonds.retain(|b| !exclude_c.contains(&b.ai.nr) && !exclude_c.contains(&b.aj.nr));
-                for bond in &mut self.bonds {
-                    if let Some(atom_n) = atom_n {
-                        if bond.ai.nr == atom_n {
-                            bond.ai.atom = n_name.as_ref().unwrap().to_string();
-                        } else if bond.aj.nr == atom_n {
-                            bond.aj.atom = n_name.as_ref().unwrap().to_string();
-                        }
-                    }
-                }
             },
             "gromos" => {
                 self.bonds.retain(|b| !exclude_n.contains(&b.ai.nr) && !exclude_n.contains(&b.aj.nr));
-                for bond in &mut self.bonds {
-                    if let Some(atom_c) = atom_c {
-                        if bond.ai.nr == atom_c {
-                            bond.ai.atom = c_name.as_ref().unwrap().to_string();
-                        } else if bond.aj.nr == atom_c {
-                            bond.aj.atom = c_name.as_ref().unwrap().to_string();
-                        }
-                    }
-                }
             },
             _ => ()
         }
@@ -293,8 +271,14 @@ impl Topol {
     
         // [ angles ]字段：键角信息
         file.write_all(b" [ angles ]\n").unwrap();
-        self.angles.retain(|a| !exclude_n.contains(&a.ai.nr) && !exclude_n.contains(&a.aj.nr) && !exclude_n.contains(&a.ak.nr));
-        self.angles.retain(|a| !exclude_c.contains(&a.ai.nr) && !exclude_c.contains(&a.aj.nr) && !exclude_c.contains(&a.ak.nr));
+        self.angles.retain(|a| {
+            let count = [a.ai.nr, a.aj.nr, a.ak.nr].iter().filter(|&x| exclude_n.contains(x)).count();
+            count <= 1
+        });
+        self.angles.retain(|a| {
+            let count = [a.ai.nr, a.aj.nr, a.ak.nr].iter().filter(|&x| exclude_c.contains(x)).count();
+            count <= 1
+        });
         for angle in &self.angles {
             file.write_all((angle.to_rtp() + "\n").as_bytes()).unwrap();
         }
@@ -302,56 +286,21 @@ impl Topol {
         // [ dihedrals ]字段：二面角信息
         // 理论上2用来描述improper, 但sobtop生成拓扑时采用2描述proper, 这里为特殊应对
         file.write_all(b" [ dihedrals ]\n").unwrap();
-        // 仅保留4类型中有且仅有一个排除原子(邻接原子)的情况
-        if let Some(n_name) = n_name {
-            self.dihedrals.retain(|d| 
-                (!exclude_n.contains(&d.ai.nr) && !exclude_n.contains(&d.aj.nr) && !exclude_n.contains(&d.ak.nr) && !exclude_n.contains(&d.al.nr))
-                || (d.funct == 4 && {
-                    let v_ids = vec![d.ai.nr, d.aj.nr, d.ak.nr, d.al.nr];
-                    let n_atoms: Vec<&usize> = v_ids.iter().filter(|&x| exclude_n.contains(x)).collect();
-                    n_atoms.len() == 1 && self.atoms[n_atoms[0] - 1].atom.eq(n_name)
-                }));
-        }
-        // 仅保留4类型中有且仅有一个排除原子(邻接原子)的情况
-        if let Some(c_name) = c_name {
-            self.dihedrals.retain(|d| 
-                (!exclude_c.contains(&d.ai.nr) && !exclude_c.contains(&d.aj.nr) && !exclude_c.contains(&d.ak.nr) && !exclude_c.contains(&d.al.nr))
-                || (d.funct == 4 && {
-                    let v_ids = vec![d.ai.nr, d.aj.nr, d.ak.nr, d.al.nr];
-                    let c_atoms: Vec<&usize> = v_ids.iter().filter(|&x| exclude_c.contains(x)).collect();
-                    c_atoms.len() == 1 && self.atoms[c_atoms[0] - 1].atom.eq(c_name)
-                }));
-        }
+        self.dihedrals.retain(|d| {
+            let count = [d.ai.nr, d.aj.nr, d.ak.nr, d.al.nr].iter().filter(|&x| exclude_n.contains(x)).count();
+            count <= 2
+        });
+        self.dihedrals.retain(|d| {
+            let count = [d.ai.nr, d.aj.nr, d.ak.nr, d.al.nr].iter().filter(|&x| exclude_c.contains(x)).count();
+            count <= 2
+        });
+
         // [ dihedrals ]字段: proper信息
         for dihedral in self.dihedrals.iter().filter(|&d| vec![9, 1, 2].contains(&d.funct)) {
             file.write_all((dihedral.to_rtp(ff) + "\n").as_bytes()).unwrap();
         }
     
         // [ impropers ]字段：反常二面角信息
-        for dihedral in &mut self.dihedrals {
-            if let Some(atom_n) = atom_n {
-                if dihedral.ai.nr == atom_n {
-                    dihedral.ai.atom = n_name.as_ref().unwrap().to_string();
-                } else if dihedral.aj.nr == atom_n {
-                    dihedral.aj.atom = n_name.as_ref().unwrap().to_string();
-                } else if dihedral.ak.nr == atom_n {
-                    dihedral.ak.atom = n_name.as_ref().unwrap().to_string();
-                } else if dihedral.al.nr == atom_n {
-                    dihedral.al.atom = n_name.as_ref().unwrap().to_string();
-                }
-            }
-            if let Some(atom_c) = atom_c {
-                if dihedral.ai.nr == atom_c {
-                    dihedral.ai.atom = c_name.as_ref().unwrap().to_string();
-                } else if dihedral.aj.nr == atom_c {
-                    dihedral.aj.atom = c_name.as_ref().unwrap().to_string();
-                } else if dihedral.ak.nr == atom_c {
-                    dihedral.ak.atom = c_name.as_ref().unwrap().to_string();
-                } else if dihedral.al.nr == atom_c {
-                    dihedral.al.atom = c_name.as_ref().unwrap().to_string();
-                }
-            }
-        }
         file.write_all(b" [ impropers ]\n").unwrap();
         for dihedral in self.dihedrals.iter().filter(|&d| d.funct == 4) {
             file.write_all((dihedral.to_rtp(ff) + "\n").as_bytes()).unwrap();
