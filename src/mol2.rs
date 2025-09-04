@@ -1,3 +1,4 @@
+use std::process::exit;
 use std::{fs, io::Write};
 use std::path::Path;
 use crate::hdb::HDBItem;
@@ -35,11 +36,19 @@ impl MOL2 {
         // Molecule字段
         let sys_name = Path::new(file).file_stem().unwrap().to_str().unwrap();
         let num: Vec<i32> = mol2_content[mol_ln + 2].trim().split_whitespace().map(|s| s.parse().unwrap()).collect();
-        let at_num = Some(num[0]);
-        let bond_num = Some(num[1]);
-        let sub_struct_num = Some(num[2]);
-        let prop_num = Some(num[3]);
-        let set_num = Some(num[4]);
+        let at_num = num.get(0);
+        if at_num.is_none() {
+            println!("Error: atom number is 0.");
+            exit(0);
+        }
+        let bond_num = num.get(1);
+        if bond_num.is_none() {
+            println!("Error: bond number is 0.");
+            exit(0);
+        }
+        let sub_struct_num = num.get(2);
+        let prop_num = num.get(3);
+        let set_num = num.get(4);
         let sys_type = Some(mol2_content[mol_ln + 3].trim().to_string());
         let at_charge = Some(mol2_content[mol_ln + 4].trim().to_string());
         let mol = Molecule::new(sys_name, at_num, bond_num, sub_struct_num, prop_num, set_num, sys_type, at_charge);
@@ -53,7 +62,7 @@ impl MOL2 {
             }
         }).unwrap();
         let mut atoms: Vec<Atom> = Vec::new();
-        for &at_line in &mol2_content[atom_ln + 1 .. atom_ln + 1 + at_num.unwrap() as usize] {
+        for &at_line in &mol2_content[atom_ln + 1 .. atom_ln + 1 + *at_num.unwrap() as usize] {
             let mut atom = Atom::from(at_line);
             atom.sub_struct_name = sys_name.to_string();
             atoms.push(atom);
@@ -68,7 +77,7 @@ impl MOL2 {
             }
         }).unwrap();
         let mut bonds: Vec<Bond> = Vec::new();
-        for &bond_line in &mol2_content[bond_ln + 1 .. bond_ln + 1 + bond_num.unwrap() as usize] {
+        for &bond_line in &mol2_content[bond_ln + 1 .. bond_ln + 1 + *bond_num.unwrap() as usize] {
             bonds.push(Bond::from(bond_line));
         }
 
@@ -99,14 +108,14 @@ impl Display for Molecule {
 }
 
 impl Molecule {
-    pub fn new(sys_name: &str, at_num: Option<i32>, bond_num: Option<i32>, sub_struct_num: Option<i32>, prop_num: Option<i32>, 
-               set_num: Option<i32>, sys_type: Option<String>, at_charge: Option<String>) -> Molecule {
+    pub fn new(sys_name: &str, at_num: Option<&i32>, bond_num: Option<&i32>, sub_struct_num: Option<&i32>, prop_num: Option<&i32>, 
+               set_num: Option<&i32>, sys_type: Option<String>, at_charge: Option<String>) -> Molecule {
         let sys_name = sys_name.to_string();
-        let at_num = at_num.unwrap_or(0);
-        let bond_num = bond_num.unwrap_or(0);
-        let sub_struct_num = sub_struct_num.unwrap_or(0);
-        let prop_num = prop_num.unwrap_or(0);
-        let set_num = set_num.unwrap_or(0);
+        let at_num = *at_num.unwrap_or(&0);
+        let bond_num = *bond_num.unwrap_or(&0);
+        let sub_struct_num = *sub_struct_num.unwrap_or(&0);
+        let prop_num = *prop_num.unwrap_or(&0);
+        let set_num = *set_num.unwrap_or(&0);
         let sys_type = sys_type.unwrap_or("SMALL".to_string());
         let at_charge = at_charge.unwrap_or("USER_CHARGES".to_string());
         Molecule {
@@ -127,7 +136,7 @@ pub struct Atom {
     at: String,
     sub_struct_id: i32,
     sub_struct_name: String,
-    atom_charge: Option<f64>,
+    atom_charge: f64,
     pub element: String
 }
 
@@ -135,7 +144,7 @@ impl Display for Atom {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{:7} {:10}{:12.4}{:12.4}{:12.4} {:7}{:3} {:9}{:8.4}\n", 
             self.atom_id, self.atom_name, self.x, self.y, self.z, self.at, 
-            self.sub_struct_id, self.sub_struct_name, self.atom_charge.unwrap_or(0.0))
+            self.sub_struct_id, self.sub_struct_name, self.atom_charge)
     }
 }
 
@@ -151,7 +160,8 @@ impl Atom {
         // 修改残基名为MOL, 残基编号为1
         let sub_struct_id = 1;
         let sub_struct_name = "MOL".to_string();
-        let atom_charge: Option<f64> = Some(line[8].parse().unwrap());
+        let atom_charge = line.get(8);
+        let atom_charge = atom_charge.and_then(|s| s.parse().ok()).unwrap_or(0.0);
         let element: Vec<&str> = at.split(".").collect();
         let element = element[0].to_string();
         Atom {
@@ -330,7 +340,7 @@ impl MOL2 {
         }
         // 5. 输出文件
         let mut outfile = fs::File::create(out).unwrap();
-        outfile.write_all(format!("{:5}{}\n", self.mol.sys_name, items.len()).as_bytes()).unwrap();
+        outfile.write_all(format!("{:5}    {}\n", self.mol.sys_name, items.len()).as_bytes()).unwrap();
         for item in &items {
             outfile.write_all(format!("{:<7}{:<7}{:7}", item.h_num, item.h_type, item.h_atom).as_bytes()).unwrap();
             for ha in &item.heavy_atoms {
