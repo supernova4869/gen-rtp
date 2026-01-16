@@ -14,8 +14,8 @@ use crate::utils::get_input;
 
 fn main() {
     // 读取mol2
-    println!(" GEN-RTP v0.3: An `rtp` and `hdb` file generator to be used");
-    println!(" together with acpype or Sobtop.");
+    println!(" GEN-RTP v0.4: An `rtp` and `hdb` file generator from itp.");
+    println!(" Totally used together with Sobtop or acpype, etc.");
     println!(" Website: https://github.com/supernova4869/gen-rtp");
     println!(" Developed by Jiaxing Zhang, at Tianjin University");
     println!(" Contact me: zhangjiaxing7137@tju.edu.cn");

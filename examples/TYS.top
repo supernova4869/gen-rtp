@@ -1,0 +1,14 @@
+; Created by Sobtop (http://sobereva.com/soft/sobtop) Version 2026.1.16 on 2026-01-16
+
+[ defaults ]
+; nbfunc        comb-rule       gen-pairs       fudgeLJ    fudgeQQ
+     1              2              yes            0.5       0.8333
+
+#include "TYS.itp"
+
+[ system ]
+TYS
+
+[ molecules ]
+; Molecule      nmols
+TYS     1

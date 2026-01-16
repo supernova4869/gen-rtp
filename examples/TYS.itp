@@ -1,0 +1,349 @@
+; Created by Sobtop (http://sobereva.com/soft/sobtop) Version 2026.1.16 on 2026-01-16
+
+[ atomtypes ]
+; name   at.num      mass       charge   ptype     sigma (nm)    epsilon (kJ/mol)
+c            6    12.010736    0.000000    A      3.399670E-01    3.598240E-01
+o            8    15.999405    0.000000    A      2.959922E-01    8.786400E-01
+c3           6    12.010736    0.000000    A      3.399670E-01    4.577296E-01
+hc           1     1.007941    0.000000    A      2.649533E-01    6.568880E-02
+n            7    14.006703    0.000000    A      3.249999E-01    7.112800E-01
+ca           6    12.010736    0.000000    A      3.399670E-01    3.598240E-01
+os           8    15.999405    0.000000    A      3.000012E-01    7.112800E-01
+s6          16    32.064787    0.000000    A      3.563595E-01    1.046000E+00
+h1           1     1.007941    0.000000    A      2.471353E-01    6.568880E-02
+ha           1     1.007941    0.000000    A      2.599642E-01    6.276000E-02
+hn           1     1.007941    0.000000    A      1.069078E-01    6.568880E-02
+
+[ moleculetype ]
+; name          nrexcl
+TYS       3
+
+; Atomic charges are those loaded from .mol2 file
+[ atoms ]
+;  Index   type   residue  resname   atom         cgnr     charge       mass
+     1     c          1      MOL     C              1    0.00000000   12.010736
+     2     o          1      MOL     O              2    0.00000000   15.999405
+     3     c3         1      MOL     CH3            3    0.00000000   12.010736
+     4     hc         1      MOL     HH31           4    0.00000000    1.007941
+     5     hc         1      MOL     HH32           5    0.00000000    1.007941
+     6     hc         1      MOL     HH33           6    0.00000000    1.007941
+     7     n          1      MOL     N              7    0.00000000   14.006703
+     8     c3         1      MOL     CA             8    0.00000000   12.010736
+     9     c          1      MOL     C              9    0.00000000   12.010736
+    10     o          1      MOL     O             10    0.00000000   15.999405
+    11     c3         1      MOL     CB            11    0.00000000   12.010736
+    12     ca         1      MOL     CG            12    0.00000000   12.010736
+    13     ca         1      MOL     CD1           13    0.00000000   12.010736
+    14     ca         1      MOL     CD2           14    0.00000000   12.010736
+    15     ca         1      MOL     CE1           15    0.00000000   12.010736
+    16     ca         1      MOL     CE2           16    0.00000000   12.010736
+    17     ca         1      MOL     CZ            17    0.00000000   12.010736
+    18     os         1      MOL     OH            18    0.00000000   15.999405
+    19     s6         1      MOL     S             19    0.00000000   32.064787
+    20     o          1      MOL     O1            20    0.00000000   15.999405
+    21     o          1      MOL     O2            21    0.00000000   15.999405
+    22     o          1      MOL     O3            22    0.00000000   15.999405
+    23     h1         1      MOL     HA            23    0.00000000    1.007941
+    24     hc         1      MOL     HB1           24    0.00000000    1.007941
+    25     hc         1      MOL     HB2           25    0.00000000    1.007941
+    26     ha         1      MOL     HD1           26    0.00000000    1.007941
+    27     ha         1      MOL     HD2           27    0.00000000    1.007941
+    28     ha         1      MOL     HE1           28    0.00000000    1.007941
+    29     ha         1      MOL     HE2           29    0.00000000    1.007941
+    30     hn         1      MOL     HN            30    0.00000000    1.007941
+    31     n          1      MOL     N             31    0.00000000   14.006703
+    32     c3         1      MOL     C             32    0.00000000   12.010736
+    33     hn         1      MOL     HN            33    0.00000000    1.007941
+    34     h1         1      MOL     HC1           34    0.00000000    1.007941
+    35     h1         1      MOL     HC2           35    0.00000000    1.007941
+    36     h1         1      MOL     HC3           36    0.00000000    1.007941
+ 
+[ bonds ]
+;  atom_i   atom_j  functype      r0 (nm)    k (kJ/mol/nm^2)
+     1        2         1        0.121830     5.336274E+05     ; C-O, prebuilt c-o
+     1        3         1        0.152410     2.619184E+05     ; C-CH3, prebuilt c-c3
+     1        7         1        0.137890     3.578157E+05     ; C-N, prebuilt c-n
+     3        4         1        0.109690     2.766461E+05     ; CH3-HH31, prebuilt c3-hc
+     3        5         1        0.109690     2.766461E+05     ; CH3-HH32, prebuilt c3-hc
+     3        6         1        0.109690     2.766461E+05     ; CH3-HH33, prebuilt c3-hc
+     7        8         1        0.146190     2.750562E+05     ; N-CA, prebuilt c3-n
+     7       30         1        0.101290     3.373978E+05     ; N-HN, prebuilt hn-n
+     8        9         1        0.152410     2.619184E+05     ; CA-C, prebuilt c-c3
+     8       11         1        0.153750     2.517931E+05     ; CA-CB, prebuilt c3-c3
+     8       23         1        0.109690     2.766461E+05     ; CA-HA, prebuilt c3-h1
+     9       10         1        0.121830     5.336274E+05     ; C-O, prebuilt c-o
+     9       31         1        0.137890     3.578157E+05     ; C-N, prebuilt c-n
+    11       12         1        0.151560     2.686128E+05     ; CB-CG, prebuilt c3-ca
+    11       24         1        0.109690     2.766461E+05     ; CB-HB1, prebuilt c3-hc
+    11       25         1        0.109690     2.766461E+05     ; CB-HB2, prebuilt c3-hc
+    12       13         1        0.139840     3.858485E+05     ; CG-CD1, prebuilt ca-ca
+    12       14         1        0.139840     3.858485E+05     ; CG-CD2, prebuilt ca-ca
+    13       15         1        0.139840     3.858485E+05     ; CD1-CE1, prebuilt ca-ca
+    13       26         1        0.108600     2.893654E+05     ; CD1-HD1, prebuilt ca-ha
+    14       16         1        0.139840     3.858485E+05     ; CD2-CE2, prebuilt ca-ca
+    14       27         1        0.108600     2.893654E+05     ; CD2-HD2, prebuilt ca-ha
+    15       17         1        0.139840     3.858485E+05     ; CE1-CZ, prebuilt ca-ca
+    15       28         1        0.108600     2.893654E+05     ; CE1-HE1, prebuilt ca-ha
+    16       17         1        0.139840     3.858485E+05     ; CE2-CZ, prebuilt ca-ca
+    16       29         1        0.108600     2.893654E+05     ; CE2-HE2, prebuilt ca-ha
+    17       18         1        0.136960     3.151389E+05     ; CZ-OH, prebuilt ca-os
+    18       19         1        0.162250     2.614163E+05     ; OH-S, prebuilt os-s6
+    19       20         1        0.145330     4.290274E+05     ; S-O1, prebuilt o-s6
+    19       21         1        0.145330     4.290274E+05     ; S-O2, prebuilt o-s6
+    19       22         1        0.145330     4.290274E+05     ; S-O3, prebuilt o-s6
+    31       32         1        0.146190     2.750562E+05     ; N-C, prebuilt c3-n
+    31       33         1        0.101290     3.373978E+05     ; N-HN, prebuilt hn-n
+    32       34         1        0.109690     2.766461E+05     ; C-HC1, prebuilt c3-h1
+    32       35         1        0.109690     2.766461E+05     ; C-HC2, prebuilt c3-h1
+    32       36         1        0.109690     2.766461E+05     ; C-HC3, prebuilt c3-h1
+ 
+[ angles ]
+;  atom_i   atom_j   atom_k  functype    a0 (Deg.)  k (kJ/mol/rad^2)
+     2        1        3         1       123.200      5.640032E+02     ; O-C-CH3, prebuilt c3-c-o
+     2        1        7         1       123.050      6.209056E+02     ; O-C-N, prebuilt n-c-o
+     3        1        7         1       115.180      5.589824E+02     ; CH3-C-N, prebuilt c3-c-n
+     1        3        4         1       108.770      3.924592E+02     ; C-CH3-HH31, prebuilt c-c3-hc
+     1        3        5         1       108.770      3.924592E+02     ; C-CH3-HH32, prebuilt c-c3-hc
+     1        3        6         1       108.770      3.924592E+02     ; C-CH3-HH33, prebuilt c-c3-hc
+     4        3        5         1       107.580      3.296992E+02     ; HH31-CH3-HH32, prebuilt hc-c3-hc
+     4        3        6         1       107.580      3.296992E+02     ; HH31-CH3-HH33, prebuilt hc-c3-hc
+     5        3        6         1       107.580      3.296992E+02     ; HH32-CH3-HH33, prebuilt hc-c3-hc
+     1        7        8         1       120.690      5.305312E+02     ; C-N-CA, prebuilt c-n-c3
+     1        7       30         1       117.550      4.041744E+02     ; C-N-HN, prebuilt c-n-hn
+     8        7       30         1       117.680      3.832544E+02     ; CA-N-HN, prebuilt c3-n-hn
+     7        8        9         1       109.060      5.606560E+02     ; N-CA-C, prebuilt c-c3-n
+     7        8       11         1       111.610      5.514512E+02     ; N-CA-CB, prebuilt c3-c3-n
+     7        8       23         1       108.880      4.167264E+02     ; N-CA-HA, prebuilt h1-c3-n
+     9        8       11         1       111.040      5.296944E+02     ; C-CA-CB, prebuilt c-c3-c3
+     9        8       23         1       108.220      3.932960E+02     ; C-CA-HA, prebuilt c-c3-h1
+    11        8       23         1       109.560      3.882752E+02     ; CB-CA-HA, prebuilt c3-c3-h1
+     8        9       10         1       123.200      5.640032E+02     ; CA-C-O, prebuilt c3-c-o
+     8        9       31         1       115.180      5.589824E+02     ; CA-C-N, prebuilt c3-c-n
+    10        9       31         1       123.050      6.209056E+02     ; O-C-N, prebuilt n-c-o
+     8       11       12         1       112.070      5.280208E+02     ; CA-CB-CG, prebuilt c3-c3-ca
+     8       11       24         1       109.800      3.874384E+02     ; CA-CB-HB1, prebuilt c3-c3-hc
+     8       11       25         1       109.800      3.874384E+02     ; CA-CB-HB2, prebuilt c3-c3-hc
+    12       11       24         1       110.470      3.916224E+02     ; CG-CB-HB1, prebuilt ca-c3-hc
+    12       11       25         1       110.470      3.916224E+02     ; CG-CB-HB2, prebuilt ca-c3-hc
+    24       11       25         1       107.580      3.296992E+02     ; HB1-CB-HB2, prebuilt hc-c3-hc
+    11       12       13         1       120.770      5.313680E+02     ; CB-CG-CD1, prebuilt c3-ca-ca
+    11       12       14         1       120.770      5.313680E+02     ; CB-CG-CD2, prebuilt c3-ca-ca
+    13       12       14         1       120.020      5.573088E+02     ; CD1-CG-CD2, prebuilt ca-ca-ca
+    12       13       15         1       120.020      5.573088E+02     ; CG-CD1-CE1, prebuilt ca-ca-ca
+    12       13       26         1       119.880      4.033376E+02     ; CG-CD1-HD1, prebuilt ca-ca-ha
+    15       13       26         1       119.880      4.033376E+02     ; CE1-CD1-HD1, prebuilt ca-ca-ha
+    12       14       16         1       120.020      5.573088E+02     ; CG-CD2-CE2, prebuilt ca-ca-ca
+    12       14       27         1       119.880      4.033376E+02     ; CG-CD2-HD2, prebuilt ca-ca-ha
+    16       14       27         1       119.880      4.033376E+02     ; CE2-CD2-HD2, prebuilt ca-ca-ha
+    13       15       17         1       120.020      5.573088E+02     ; CD1-CE1-CZ, prebuilt ca-ca-ca
+    13       15       28         1       119.880      4.033376E+02     ; CD1-CE1-HE1, prebuilt ca-ca-ha
+    17       15       28         1       119.880      4.033376E+02     ; CZ-CE1-HE1, prebuilt ca-ca-ha
+    14       16       17         1       120.020      5.573088E+02     ; CD2-CE2-CZ, prebuilt ca-ca-ca
+    14       16       29         1       119.880      4.033376E+02     ; CD2-CE2-HE2, prebuilt ca-ca-ha
+    17       16       29         1       119.880      4.033376E+02     ; CZ-CE2-HE2, prebuilt ca-ca-ha
+    15       17       16         1       120.020      5.573088E+02     ; CE1-CZ-CE2, prebuilt ca-ca-ca
+    15       17       18         1       119.200      5.824128E+02     ; CE1-CZ-OH, prebuilt ca-ca-os
+    16       17       18         1       119.200      5.824128E+02     ; CE2-CZ-OH, prebuilt ca-ca-os
+    17       18       19         1       117.180      5.246736E+02     ; CZ-OH-S, prebuilt ca-os-s6
+    18       19       20         1       108.560      6.083536E+02     ; OH-S-O1, prebuilt o-s6-os
+    18       19       21         1       108.560      6.083536E+02     ; OH-S-O2, prebuilt o-s6-os
+    18       19       22         1       108.560      6.083536E+02     ; OH-S-O3, prebuilt o-s6-os
+    20       19       21         1       120.050      6.158848E+02     ; O1-S-O2, prebuilt o-s6-o
+    20       19       22         1       120.050      6.158848E+02     ; O1-S-O3, prebuilt o-s6-o
+    21       19       22         1       120.050      6.158848E+02     ; O2-S-O3, prebuilt o-s6-o
+     9       31       32         1       120.690      5.305312E+02     ; C-N-C, prebuilt c-n-c3
+     9       31       33         1       117.550      4.041744E+02     ; C-N-HN, prebuilt c-n-hn
+    32       31       33         1       117.680      3.832544E+02     ; C-N-HN, prebuilt c3-n-hn
+    31       32       34         1       108.880      4.167264E+02     ; N-C-HC1, prebuilt h1-c3-n
+    31       32       35         1       108.880      4.167264E+02     ; N-C-HC2, prebuilt h1-c3-n
+    31       32       36         1       108.880      4.167264E+02     ; N-C-HC3, prebuilt h1-c3-n
+    34       32       35         1       108.460      3.280256E+02     ; HC1-C-HC2, prebuilt h1-c3-h1
+    34       32       36         1       108.460      3.280256E+02     ; HC1-C-HC3, prebuilt h1-c3-h1
+    35       32       36         1       108.460      3.280256E+02     ; HC2-C-HC3, prebuilt h1-c3-h1
+ 
+[ dihedrals ] ; propers
+;  atom_i   atom_j   atom_k   atom_l  functype   d0 (Deg.)   k (kJ/mol/rad^2)    ; Case of functype=2
+;  atom_i   atom_j   atom_k   atom_l  functype  phase (Deg.)  kd (kJ/mol) pn     ; Case of functype=9
+     1        7        8        9         9       180.000       3.55640    2     ; C-N-CA-C, prebuilt c-n-c3-c
+     1        7        8        9         9         0.000       3.34720    1     ; C-N-CA-C, prebuilt c-n-c3-c
+     1        7        8       11         9       180.000       2.09200    4     ; C-N-CA-CB, prebuilt c3-c3-n-c
+     1        7        8       11         9       180.000       0.62760    3     ; C-N-CA-CB, prebuilt c3-c3-n-c
+     1        7        8       11         9         0.000       0.00000    2     ; C-N-CA-CB, prebuilt c3-c3-n-c
+     1        7        8       11         9         0.000       2.21752    1     ; C-N-CA-CB, prebuilt c3-c3-n-c
+     1        7        8       23         9         0.000       0.00000    2     ; C-N-CA-HA, prebuilt X-c3-n-X
+     2        1        3        4         9         0.000       3.34720    1     ; O-C-CH3-HH31, prebuilt hc-c3-c-o
+     2        1        3        4         9         0.000       0.00000    2     ; O-C-CH3-HH31, prebuilt hc-c3-c-o
+     2        1        3        4         9       180.000       0.33472    3     ; O-C-CH3-HH31, prebuilt hc-c3-c-o
+     2        1        3        5         9         0.000       3.34720    1     ; O-C-CH3-HH32, prebuilt hc-c3-c-o
+     2        1        3        5         9         0.000       0.00000    2     ; O-C-CH3-HH32, prebuilt hc-c3-c-o
+     2        1        3        5         9       180.000       0.33472    3     ; O-C-CH3-HH32, prebuilt hc-c3-c-o
+     2        1        3        6         9         0.000       3.34720    1     ; O-C-CH3-HH33, prebuilt hc-c3-c-o
+     2        1        3        6         9         0.000       0.00000    2     ; O-C-CH3-HH33, prebuilt hc-c3-c-o
+     2        1        3        6         9       180.000       0.33472    3     ; O-C-CH3-HH33, prebuilt hc-c3-c-o
+     2        1        7        8         9       180.000      10.46000    2     ; O-C-N-CA, prebuilt X-c-n-X
+     2        1        7       30         9       180.000      10.46000    2     ; O-C-N-HN, prebuilt hn-n-c-o
+     2        1        7       30         9         0.000       8.36800    1     ; O-C-N-HN, prebuilt hn-n-c-o
+     3        1        7        8         9         0.000       0.00000    2     ; CH3-C-N-CA, prebuilt c3-c-n-c3
+     3        1        7        8         9       180.000       6.27600    1     ; CH3-C-N-CA, prebuilt c3-c-n-c3
+     3        1        7       30         9       180.000      10.46000    2     ; CH3-C-N-HN, prebuilt X-c-n-X
+     4        3        1        7         9       180.000       0.00000    2     ; HH31-CH3-C-N, prebuilt X-c-c3-X
+     5        3        1        7         9       180.000       0.00000    2     ; HH32-CH3-C-N, prebuilt X-c-c3-X
+     6        3        1        7         9       180.000       0.00000    2     ; HH33-CH3-C-N, prebuilt X-c-c3-X
+     7        8        9       10         9       180.000       0.00000    2     ; N-CA-C-O, prebuilt X-c-c3-X
+     7        8        9       31         9       180.000       7.11280    1     ; N-CA-C-N, prebuilt n-c3-c-n
+     7        8        9       31         9       180.000       8.36800    2     ; N-CA-C-N, prebuilt n-c3-c-n
+     7        8       11       12         9         0.000       0.65084    3     ; N-CA-CB-CG, prebuilt X-c3-c3-X
+     7        8       11       24         9         0.000       0.65084    3     ; N-CA-CB-HB1, prebuilt X-c3-c3-X
+     7        8       11       25         9         0.000       0.65084    3     ; N-CA-CB-HB2, prebuilt X-c3-c3-X
+     8        9       31       32         9         0.000       0.00000    2     ; CA-C-N-C, prebuilt c3-c-n-c3
+     8        9       31       32         9       180.000       6.27600    1     ; CA-C-N-C, prebuilt c3-c-n-c3
+     8        9       31       33         9       180.000      10.46000    2     ; CA-C-N-HN, prebuilt X-c-n-X
+     8       11       12       13         9         0.000       0.00000    2     ; CA-CB-CG-CD1, prebuilt X-c3-ca-X
+     8       11       12       14         9         0.000       0.00000    2     ; CA-CB-CG-CD2, prebuilt X-c3-ca-X
+     9        8        7       30         9         0.000       0.00000    2     ; C-CA-N-HN, prebuilt X-c3-n-X
+     9        8       11       12         9         0.000       0.65084    3     ; C-CA-CB-CG, prebuilt X-c3-c3-X
+     9        8       11       24         9         0.000       0.65084    3     ; C-CA-CB-HB1, prebuilt X-c3-c3-X
+     9        8       11       25         9         0.000       0.65084    3     ; C-CA-CB-HB2, prebuilt X-c3-c3-X
+     9       31       32       34         9         0.000       0.00000    2     ; C-N-C-HC1, prebuilt X-c3-n-X
+     9       31       32       35         9         0.000       0.00000    2     ; C-N-C-HC2, prebuilt X-c3-n-X
+     9       31       32       36         9         0.000       0.00000    2     ; C-N-C-HC3, prebuilt X-c3-n-X
+    10        9        8       11         9       180.000       0.00000    2     ; O-C-CA-CB, prebuilt X-c-c3-X
+    10        9        8       23         9         0.000       3.34720    1     ; O-C-CA-HA, prebuilt h1-c3-c-o
+    10        9        8       23         9         0.000       0.00000    2     ; O-C-CA-HA, prebuilt h1-c3-c-o
+    10        9        8       23         9       180.000       0.33472    3     ; O-C-CA-HA, prebuilt h1-c3-c-o
+    10        9       31       32         9       180.000      10.46000    2     ; O-C-N-C, prebuilt X-c-n-X
+    10        9       31       33         9       180.000      10.46000    2     ; O-C-N-HN, prebuilt hn-n-c-o
+    10        9       31       33         9         0.000       8.36800    1     ; O-C-N-HN, prebuilt hn-n-c-o
+    11        8        7       30         9         0.000       0.00000    2     ; CB-CA-N-HN, prebuilt X-c3-n-X
+    11        8        9       31         9         0.000       0.41840    4     ; CB-CA-C-N, prebuilt c3-c3-c-n
+    11        8        9       31         9         0.000       0.29288    2     ; CB-CA-C-N, prebuilt c3-c3-c-n
+    11       12       13       15         9       180.000      15.16700    2     ; CB-CG-CD1-CE1, prebuilt X-ca-ca-X
+    11       12       13       26         9       180.000      15.16700    2     ; CB-CG-CD1-HD1, prebuilt X-ca-ca-X
+    11       12       14       16         9       180.000      15.16700    2     ; CB-CG-CD2-CE2, prebuilt X-ca-ca-X
+    11       12       14       27         9       180.000      15.16700    2     ; CB-CG-CD2-HD2, prebuilt X-ca-ca-X
+    12       11        8       23         9         0.000       0.65084    3     ; CG-CB-CA-HA, prebuilt X-c3-c3-X
+    12       13       15       17         9       180.000      15.16700    2     ; CG-CD1-CE1-CZ, prebuilt X-ca-ca-X
+    12       13       15       28         9       180.000      15.16700    2     ; CG-CD1-CE1-HE1, prebuilt X-ca-ca-X
+    12       14       16       17         9       180.000      15.16700    2     ; CG-CD2-CE2-CZ, prebuilt X-ca-ca-X
+    12       14       16       29         9       180.000      15.16700    2     ; CG-CD2-CE2-HE2, prebuilt X-ca-ca-X
+    13       12       11       24         9         0.000       0.00000    2     ; CD1-CG-CB-HB1, prebuilt X-c3-ca-X
+    13       12       11       25         9         0.000       0.00000    2     ; CD1-CG-CB-HB2, prebuilt X-c3-ca-X
+    13       12       14       16         9       180.000      15.16700    2     ; CD1-CG-CD2-CE2, prebuilt X-ca-ca-X
+    13       12       14       27         9       180.000      15.16700    2     ; CD1-CG-CD2-HD2, prebuilt X-ca-ca-X
+    13       15       17       16         9       180.000      15.16700    2     ; CD1-CE1-CZ-CE2, prebuilt X-ca-ca-X
+    13       15       17       18         9       180.000      15.16700    2     ; CD1-CE1-CZ-OH, prebuilt X-ca-ca-X
+    14       12       11       24         9         0.000       0.00000    2     ; CD2-CG-CB-HB1, prebuilt X-c3-ca-X
+    14       12       11       25         9         0.000       0.00000    2     ; CD2-CG-CB-HB2, prebuilt X-c3-ca-X
+    14       12       13       15         9       180.000      15.16700    2     ; CD2-CG-CD1-CE1, prebuilt X-ca-ca-X
+    14       12       13       26         9       180.000      15.16700    2     ; CD2-CG-CD1-HD1, prebuilt X-ca-ca-X
+    14       16       17       15         9       180.000      15.16700    2     ; CD2-CE2-CZ-CE1, prebuilt X-ca-ca-X
+    14       16       17       18         9       180.000      15.16700    2     ; CD2-CE2-CZ-OH, prebuilt X-ca-ca-X
+    15       17       16       29         9       180.000      15.16700    2     ; CE1-CZ-CE2-HE2, prebuilt X-ca-ca-X
+    15       17       18       19         9       180.000       3.76560    2     ; CE1-CZ-OH-S, prebuilt X-ca-os-X
+    16       17       15       28         9       180.000      15.16700    2     ; CE2-CZ-CE1-HE1, prebuilt X-ca-ca-X
+    16       17       18       19         9       180.000       3.76560    2     ; CE2-CZ-OH-S, prebuilt X-ca-os-X
+    17       15       13       26         9       180.000      15.16700    2     ; CZ-CE1-CD1-HD1, prebuilt X-ca-ca-X
+    17       16       14       27         9       180.000      15.16700    2     ; CZ-CE2-CD2-HD2, prebuilt X-ca-ca-X
+    17       18       19       20         9       180.000       5.02080    2     ; CZ-OH-S-O1, prebuilt X-os-s6-X
+    17       18       19       21         9       180.000       5.02080    2     ; CZ-OH-S-O2, prebuilt X-os-s6-X
+    17       18       19       22         9       180.000       5.02080    2     ; CZ-OH-S-O3, prebuilt X-os-s6-X
+    18       17       15       28         9       180.000      15.16700    2     ; OH-CZ-CE1-HE1, prebuilt X-ca-ca-X
+    18       17       16       29         9       180.000      15.16700    2     ; OH-CZ-CE2-HE2, prebuilt X-ca-ca-X
+    23        8        7       30         9         0.000       0.00000    2     ; HA-CA-N-HN, prebuilt X-c3-n-X
+    23        8        9       31         9       180.000       0.00000    2     ; HA-CA-C-N, prebuilt X-c-c3-X
+    23        8       11       24         9         0.000       0.65084    3     ; HA-CA-CB-HB1, prebuilt X-c3-c3-X
+    23        8       11       25         9         0.000       0.65084    3     ; HA-CA-CB-HB2, prebuilt X-c3-c3-X
+    26       13       15       28         9       180.000      15.16700    2     ; HD1-CD1-CE1-HE1, prebuilt X-ca-ca-X
+    27       14       16       29         9       180.000      15.16700    2     ; HD2-CD2-CE2-HE2, prebuilt X-ca-ca-X
+    33       31       32       34         9         0.000       0.00000    2     ; HN-N-C-HC1, prebuilt X-c3-n-X
+    33       31       32       35         9         0.000       0.00000    2     ; HN-N-C-HC2, prebuilt X-c3-n-X
+    33       31       32       36         9         0.000       0.00000    2     ; HN-N-C-HC3, prebuilt X-c3-n-X
+
+[ pairs ] ; Yielded based on rotatable dihedrals
+;  atom_i   atom_j  functype
+     1        9         1     ; C-N-CA-C
+     1       11         1     ; C-N-CA-CB
+     1       23         1     ; C-N-CA-HA
+     2        4         1     ; O-C-CH3-HH31
+     2        5         1     ; O-C-CH3-HH32
+     2        6         1     ; O-C-CH3-HH33
+     2        8         1     ; O-C-N-CA
+     2       30         1     ; O-C-N-HN
+     3        8         1     ; CH3-C-N-CA
+     3       30         1     ; CH3-C-N-HN
+     4        7         1     ; HH31-CH3-C-N
+     5        7         1     ; HH32-CH3-C-N
+     6        7         1     ; HH33-CH3-C-N
+     7       10         1     ; N-CA-C-O
+     7       31         1     ; N-CA-C-N
+     7       12         1     ; N-CA-CB-CG
+     7       24         1     ; N-CA-CB-HB1
+     7       25         1     ; N-CA-CB-HB2
+     8       32         1     ; CA-C-N-C
+     8       33         1     ; CA-C-N-HN
+     8       13         1     ; CA-CB-CG-CD1
+     8       14         1     ; CA-CB-CG-CD2
+     9       30         1     ; C-CA-N-HN
+     9       12         1     ; C-CA-CB-CG
+     9       24         1     ; C-CA-CB-HB1
+     9       25         1     ; C-CA-CB-HB2
+     9       34         1     ; C-N-C-HC1
+     9       35         1     ; C-N-C-HC2
+     9       36         1     ; C-N-C-HC3
+    10       11         1     ; O-C-CA-CB
+    10       23         1     ; O-C-CA-HA
+    10       32         1     ; O-C-N-C
+    10       33         1     ; O-C-N-HN
+    11       30         1     ; CB-CA-N-HN
+    11       31         1     ; CB-CA-C-N
+    11       15         1     ; CB-CG-CD1-CE1
+    11       26         1     ; CB-CG-CD1-HD1
+    11       16         1     ; CB-CG-CD2-CE2
+    11       27         1     ; CB-CG-CD2-HD2
+    12       23         1     ; CG-CB-CA-HA
+    12       17         1     ; CG-CD1-CE1-CZ
+    12       28         1     ; CG-CD1-CE1-HE1
+    12       29         1     ; CG-CD2-CE2-HE2
+    13       24         1     ; CD1-CG-CB-HB1
+    13       25         1     ; CD1-CG-CB-HB2
+    13       16         1     ; CD1-CG-CD2-CE2
+    13       27         1     ; CD1-CG-CD2-HD2
+    13       18         1     ; CD1-CE1-CZ-OH
+    14       24         1     ; CD2-CG-CB-HB1
+    14       25         1     ; CD2-CG-CB-HB2
+    14       15         1     ; CD2-CG-CD1-CE1
+    14       26         1     ; CD2-CG-CD1-HD1
+    14       18         1     ; CD2-CE2-CZ-OH
+    15       29         1     ; CE1-CZ-CE2-HE2
+    15       19         1     ; CE1-CZ-OH-S
+    16       28         1     ; CE2-CZ-CE1-HE1
+    16       19         1     ; CE2-CZ-OH-S
+    17       26         1     ; CZ-CE1-CD1-HD1
+    17       27         1     ; CZ-CE2-CD2-HD2
+    17       20         1     ; CZ-OH-S-O1
+    17       21         1     ; CZ-OH-S-O2
+    17       22         1     ; CZ-OH-S-O3
+    18       28         1     ; OH-CZ-CE1-HE1
+    18       29         1     ; OH-CZ-CE2-HE2
+    23       30         1     ; HA-CA-N-HN
+    23       31         1     ; HA-CA-C-N
+    23       24         1     ; HA-CA-CB-HB1
+    23       25         1     ; HA-CA-CB-HB2
+    26       28         1     ; HD1-CD1-CE1-HE1
+    27       29         1     ; HD2-CD2-CE2-HE2
+    33       34         1     ; HN-N-C-HC1
+    33       35         1     ; HN-N-C-HC2
+    33       36         1     ; HN-N-C-HC3
+ 
+[ dihedrals ] ; impropers
+; atom_i   atom_j   atom_k   atom_l  functype  phase (Deg.)  kd (kJ/mol)  pn
+     2        3        1        7         4       180.000      43.93200    2     ; O-CH3-C-N, prebuilt X-X-c-o
+     1        8        7       30         4       180.000       4.60240    2     ; C-CA-N-HN, prebuilt c-c3-n-hn
+     8       10        9       31         4       180.000      43.93200    2     ; CA-O-C-N, prebuilt X-X-c-o
+    11       13       12       14         4       180.000       4.60240    2     ; CB-CD1-CG-CD2, prebuilt ca-ca-ca-c3
+    12       15       13       26         4       180.000       4.60240    2     ; CG-CE1-CD1-HD1, prebuilt X-X-ca-ha
+    12       16       14       27         4       180.000       4.60240    2     ; CG-CE2-CD2-HD2, prebuilt X-X-ca-ha
+    13       17       15       28         4       180.000       4.60240    2     ; CD1-CZ-CE1-HE1, prebuilt X-X-ca-ha
+    14       17       16       29         4       180.000       4.60240    2     ; CD2-CZ-CE2-HE2, prebuilt X-X-ca-ha
+    15       16       17       18         4       180.000       4.60240    2     ; CE1-CE2-CZ-OH, guess (same as GAFF X -X -ca-ha)
+     9       32       31       33         4       180.000       4.60240    2     ; C-C-N-HN, prebuilt c-c3-n-hn

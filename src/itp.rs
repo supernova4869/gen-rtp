@@ -114,11 +114,6 @@ fn get_atom_from_nr(atoms: &Vec<TopolAtom>, nr: usize) -> &TopolAtom {
     atoms.iter().find(|&a| a.nr == nr).unwrap()
 }
 
-
-// fn get_nr_from_atom(atoms: &Vec<TopolAtom>, resnr: i32, atname: &str) -> &TopolAtom {
-//     atoms.iter().find(|&a| a.resnr == resnr && a.atom == atname).unwrap()
-// }
-
 impl Topol {
     pub fn from(file: &str, mol2: &MOL2, 
         exclude_n: &Vec<usize>, exclude_c: &Vec<usize>,
@@ -222,8 +217,24 @@ impl Topol {
         exclude_n: &Vec<usize>, exclude_c: &Vec<usize>) {
         let mut file = fs::File::create(outfile).unwrap();
         
-        file.write_all(b"; rtp created by gen-rtp (https://github.com/supernova4869/gen-rtp)\n").unwrap();
+        file.write_all(b"; Created by gen-rtp (https://github.com/supernova4869/gen-rtp)\n").unwrap();
         file.write_all(format!("; converted from top of {}\n\n", self.moleculetype).as_bytes()).unwrap();
+
+        // 先写备用 atomtypes
+        file.write_all(b"[ atomtypes ]\n").unwrap();
+        file.write_all(b"; name   at.num      mass       charge   ptype     sigma (nm)    epsilon (kJ/mol)\n").unwrap();
+        for at in &self.atomtypes {
+            file.write_all(format!("{}\n", at).as_bytes()).unwrap();
+        }
+        file.write_all(b"; *** Please manually move above atom type definitions to ffnonbonded.itp in the folder of the forcefield to be used ***\n\n\n").unwrap();
+        
+        // 再写备用 atpfor at in &self.atomtypes {
+        for at in &self.atomtypes {
+            file.write_all(format!("{:12}{:10.6}\n", at.name, at.mass).as_bytes()).unwrap();
+        }
+        file.write_all(b"; *** Please manually move above information to the atomtypes.atp in the folder of the forcefield to be used\n\n\n").unwrap();
+
+        // 以下正式rtp
         if ff == "amber" {
             file.write_all(b"[ bondedtypes ]\n").unwrap();
             file.write_all(b"; bonds  angles  dihedrals  impropers all_dihedrals nrexcl HH14 RemoveDih\n").unwrap();
@@ -640,13 +651,3 @@ fn get_param_at<T: FromStr>(paras: &Vec<&str>, id: usize) -> Option<T> where <T 
     };
     return p
 }
-
-// 处理range泛型问题
-// fn get_params_at<T: FromStr, U>(paras: &Vec<&str>, range: U) -> Option<Vec<T>> 
-// where <T as FromStr>::Err: Debug, U: SliceIndex<Vec<&str>> + std::slice::SliceIndex<[&str]> {
-//     let cs: Option<Vec<T>> = match paras.get(range) {
-//         Some(s) => Some(s.iter().map(|&s| s.parse().unwrap()).collect()),
-//         None => None
-//     };
-//     return cs
-// }
